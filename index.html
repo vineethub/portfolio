@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vineet Kumar — Full Stack Developer</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:      #E4EEF3;
+  --paper-dim:  #D7E4EB;
+  --line:       #B9CCD8;
+  --line-soft:  #CBDAE3;
+  --ink:        #10293B;
+  --ink-soft:   #3D5A6C;
+  --ink-faint:  #6C8494;
+  --copper:     #B85C2C;
+  --copper-dim: #E7C3AB;
+  --signal:     #1F7A5C;
+  --signal-dim: #C7DFD4;
+  --panel:      #EEF4F7;
+
+  --sans: 'Space Grotesk', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{ background:var(--copper); color:var(--paper); }
+
+a{ color:inherit; }
+
+/* ---------- grid paper texture ---------- */
+.blueprint-bg{
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+
+/* ---------- shared structure ---------- */
+.sheet{
+  max-width:1040px;
+  margin:0 auto;
+  padding:0 28px;
+}
+
+.corner-frame{
+  position:relative;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+}
+.corner-frame::before,
+.corner-frame::after{
+  content:'';
+  position:absolute;
+  width:10px; height:10px;
+  border:1px solid var(--ink);
+}
+.corner-frame::before{ top:-1px; left:28px; border-right:none; border-bottom:none; }
+.corner-frame::after{ top:-1px; right:28px; border-left:none; border-bottom:none; }
+
+.label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.06em;
+  color:var(--ink-faint);
+}
+
+.rule{
+  border:none;
+  border-top:1px solid var(--line);
+}
+
+.tag{
+  font-family:var(--mono);
+  font-size:12px;
+  padding:5px 10px;
+  border:1px solid var(--line);
+  color:var(--ink-soft);
+  background:var(--panel);
+  white-space:nowrap;
+}
+
+/* ---------- top bar ---------- */
+.topbar{
+  border-bottom:1px solid var(--ink);
+}
+.topbar-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 28px;
+}
+.topbar .mark{
+  font-family:var(--mono);
+  font-size:13px;
+  font-weight:500;
+}
+.topbar nav{
+  display:flex;
+  gap:24px;
+  font-family:var(--mono);
+  font-size:12.5px;
+}
+.topbar nav a{
+  text-decoration:none;
+  color:var(--ink-soft);
+  border-bottom:1px solid transparent;
+  padding-bottom:2px;
+}
+.topbar nav a:hover{ color:var(--ink); border-color:var(--copper); }
+.status-dot{
+  display:inline-block;
+  width:7px; height:7px;
+  border-radius:50%;
+  background:var(--signal);
+  margin-right:7px;
+  position:relative;
+  top:-1px;
+}
+
+/* ---------- hero ---------- */
+.hero{ padding:56px 0 0; }
+.hero-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+.hero h1{
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  font-weight:600;
+  letter-spacing:-0.02em;
+  line-height:1.03;
+}
+.hero .role{
+  font-family:var(--mono);
+  font-size:15px;
+  color:var(--ink-soft);
+  margin-top:14px;
+}
+.hero .role .sep{ color:var(--line); margin:0 8px; }
+
+.hero-meta{
+  text-align:right;
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-faint);
+  line-height:1.9;
+}
+
+.hero-diagram{ margin:44px 0 0; }
+.hero-diagram svg{ width:100%; height:auto; display:block; }
+
+.diagram-caption{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0 40px;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--ink-faint);
+  border-top:1px solid var(--line);
+  margin-top:0;
+}
+
+/* SVG line-draw animation */
+.diagram-line{
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw 1.4s ease forwards;
+}
+.diagram-node-fill{
+  opacity:0;
+  animation: fadein 0.5s ease forwards;
+  animation-delay:0.5s;
+}
+@keyframes draw{ to{ stroke-dashoffset:0; } }
+@keyframes fadein{ to{ opacity:1; } }
+@media (prefers-reduced-motion: reduce){
+  .diagram-line{ stroke-dashoffset:0; animation:none; }
+  .diagram-node-fill{ opacity:1; animation:none; }
+}
+
+/* ---------- readout / stats ---------- */
+.readout{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+}
+.readout-cell{
+  padding:22px 24px;
+  border-left:1px solid var(--line);
+}
+.readout-cell:first-child{ border-left:none; }
+.readout-num{
+  font-family:var(--mono);
+  font-size:clamp(1.5rem,3vw,2rem);
+  color:var(--copper);
+  font-weight:500;
+}
+.readout-desc{
+  font-size:13px;
+  color:var(--ink-soft);
+  margin-top:6px;
+  line-height:1.4;
+}
+
+/* ---------- section shell ---------- */
+section{ padding:64px 0; }
+.section-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:32px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--ink);
+}
+.section-head h2{
+  font-size:1.5rem;
+  font-weight:600;
+  letter-spacing:-0.01em;
+}
+.section-head .idx{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-faint);
+}
+
+/* ---------- summary ---------- */
+.summary-grid{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:32px;
+}
+.summary-grid .label{ padding-top:4px; }
+.summary-grid p{
+  font-size:16.5px;
+  color:var(--ink-soft);
+  max-width:62ch;
+  line-height:1.65;
+}
+
+/* ---------- experience timeline ---------- */
+.timeline{ position:relative; }
+.tl-item{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:32px;
+  position:relative;
+  padding-bottom:44px;
+}
+.tl-item:last-child{ padding-bottom:0; }
+.tl-item::before{
+  content:'';
+  position:absolute;
+  left:180px;
+  top:6px;
+  bottom:-38px;
+  width:1px;
+  background:var(--line);
+}
+.tl-item:last-child::before{ display:none; }
+.tl-item::after{
+  content:'';
+  position:absolute;
+  left:176px;
+  top:4px;
+  width:9px; height:9px;
+  background:var(--paper);
+  border:2px solid var(--copper);
+  border-radius:50%;
+}
+.tl-when{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-faint);
+  padding-top:2px;
+}
+.tl-role{
+  font-size:1.15rem;
+  font-weight:600;
+}
+.tl-org{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--copper);
+  margin-top:3px;
+  margin-bottom:14px;
+}
+.tl-item ul{
+  list-style:none;
+}
+.tl-item li{
+  position:relative;
+  padding-left:18px;
+  margin-bottom:9px;
+  color:var(--ink-soft);
+  font-size:14.5px;
+  line-height:1.6;
+}
+.tl-item li::before{
+  content:'—';
+  position:absolute;
+  left:0;
+  color:var(--line);
+}
+
+/* ---------- project plates ---------- */
+.plate-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--ink);
+  border:1px solid var(--ink);
+}
+.plate{
+  background:var(--panel);
+  padding:26px 26px 24px;
+}
+.plate-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:10px;
+}
+.plate-head h3{
+  font-size:1.05rem;
+  font-weight:600;
+}
+.plate-head a{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--copper);
+  text-decoration:none;
+  border-bottom:1px solid var(--copper-dim);
+}
+.plate-head a:hover{ border-color:var(--copper); }
+.plate p{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.6;
+  margin-bottom:14px;
+  min-height:66px;
+}
+.plate-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.plate-tags span{
+  font-family:var(--mono);
+  font-size:10.5px;
+  color:var(--ink-faint);
+  border:1px solid var(--line);
+  padding:3px 7px;
+}
+
+.more-projects{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+  font-family:var(--mono);
+  font-size:12px;
+}
+.more-projects span{ color:var(--ink-faint); }
+.more-projects a{
+  color:var(--copper);
+  text-decoration:none;
+  border-bottom:1px solid var(--copper-dim);
+}
+.more-projects a:hover{ border-color:var(--copper); }
+
+/* ---------- stack ---------- */
+.stack-grid{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  row-gap:18px;
+  column-gap:32px;
+}
+.stack-row{ display:contents; }
+.stack-cat{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-faint);
+  padding-top:6px;
+}
+.stack-items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+/* ---------- edu / achievements ---------- */
+.two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+}
+.edu-block h3{
+  font-size:1.05rem;
+  font-weight:600;
+  margin-bottom:6px;
+}
+.edu-block .when{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-faint);
+  margin-bottom:4px;
+}
+.edu-block p{
+  color:var(--ink-soft);
+  font-size:14px;
+  line-height:1.6;
+}
+.ach-item{
+  display:flex;
+  gap:14px;
+  margin-bottom:18px;
+}
+.ach-num{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--copper);
+  padding-top:2px;
+}
+.ach-item h4{
+  font-size:14.5px;
+  font-weight:600;
+  margin-bottom:4px;
+}
+.ach-item p{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.6;
+}
+
+/* ---------- footer / contact ---------- */
+footer{
+  border-top:1px solid var(--ink);
+  padding:48px 0 40px;
+}
+.contact-grid{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:32px;
+  align-items:end;
+}
+footer h2{
+  font-size:2rem;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  max-width:14ch;
+  line-height:1.15;
+}
+.contact-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  font-family:var(--mono);
+  font-size:13.5px;
+}
+.contact-list a{
+  text-decoration:none;
+  color:var(--ink-soft);
+  display:flex;
+  gap:10px;
+}
+.contact-list a:hover{ color:var(--copper); }
+.contact-list .k{ color:var(--ink-faint); width:64px; flex-shrink:0; }
+.foot-note{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--ink-faint);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 760px){
+  .sheet{ padding:0 18px; }
+  .topbar-inner{ padding:14px 18px; flex-direction:column; gap:10px; align-items:flex-start; }
+  .topbar nav{ gap:16px; flex-wrap:wrap; }
+  .hero{ padding-top:36px; }
+  .hero-top{ flex-direction:column; }
+  .hero-meta{ text-align:left; }
+  .hero-diagram{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .hero-diagram svg{ width:auto; min-width:640px; }
+  .readout{ grid-template-columns:1fr 1fr; }
+  .readout-cell:nth-child(3){ border-left:none; }
+  .readout-cell{ border-bottom:1px solid var(--line); }
+  .summary-grid, .two-col{ grid-template-columns:1fr; gap:14px; }
+  .tl-item{ grid-template-columns:1fr; gap:8px; }
+  .tl-item::before, .tl-item::after{ display:none; }
+  .plate-grid{ grid-template-columns:1fr; }
+  .stack-grid{ grid-template-columns:1fr; row-gap:22px; }
+  .contact-grid{ grid-template-columns:1fr; gap:26px; }
+  .corner-frame::before, .corner-frame::after{ left:18px; right:18px; }
+}
+</style>
+</head>
+<body class="blueprint-bg">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="mark">VK / 001</div>
+    <nav>
+      <a href="#work"><span class="status-dot"></span>Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="sheet corner-frame">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>Vineet Kumar</h1>
+        <div class="role">Full Stack Developer<span class="sep">/</span>Laravel &amp; Vue.js<span class="sep">/</span>Systems for inventory, payments &amp; data</div>
+      </div>
+      <div class="hero-meta">
+        LOC — Delhi, India<br>
+        EXP — 3+ years<br>
+        STATUS — open to new work<br>
+        PH — +91 9958362265
+      </div>
+    </div>
+
+    <!-- diagram -->
+    <div class="hero-diagram">
+      <svg viewBox="0 0 984 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- connecting lines -->
+        <g fill="none" stroke="#B9CCD8" stroke-width="1">
+          <line x1="150" y1="130" x2="330" y2="130"/>
+          <line x1="330" y1="130" x2="450" y2="60"/>
+          <line x1="330" y1="130" x2="450" y2="130"/>
+          <line x1="330" y1="130" x2="450" y2="200"/>
+          <line x1="600" y1="60" x2="720" y2="60"/>
+          <line x1="600" y1="200" x2="720" y2="200"/>
+        </g>
+        <!-- animated draw lines -->
+        <g fill="none" stroke="#B85C2C" stroke-width="1.4">
+          <path class="diagram-line" d="M150,130 L330,130" style="animation-delay:0.05s"/>
+          <path class="diagram-line" d="M330,130 L450,60" style="animation-delay:0.2s"/>
+          <path class="diagram-line" d="M330,130 L450,130" style="animation-delay:0.3s"/>
+          <path class="diagram-line" d="M330,130 L450,200" style="animation-delay:0.4s"/>
+        </g>
+
+        <!-- root node: Vineet -->
+        <circle cx="120" cy="130" r="30" fill="#E4EEF3" stroke="#10293B" stroke-width="1.4"/>
+        <text x="120" y="126" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#10293B">VK</text>
+        <text x="120" y="138" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#3D5A6C">DEV</text>
+
+        <!-- Simco ERP hub -->
+        <rect x="290" y="105" width="80" height="50" fill="#EEF4F7" stroke="#10293B" stroke-width="1.2" class="diagram-node-fill" style="animation-delay:0.5s"/>
+        <text x="330" y="127" text-anchor="middle" font-family="Space Grotesk" font-weight="600" font-size="11" fill="#10293B">Simco</text>
+        <text x="330" y="141" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#3D5A6C">ERP SYSTEM</text>
+
+        <!-- Inventory / Invoice / Payments modules -->
+        <g class="diagram-node-fill" style="animation-delay:0.7s">
+          <rect x="450" y="42" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
+          <text x="525" y="65" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Inventory + PO</text>
+
+          <rect x="450" y="112" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
+          <text x="525" y="135" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Invoicing</text>
+
+          <rect x="450" y="182" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
+          <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Payments + Delivery</text>
+        </g>
+
+        <!-- gateways -->
+        <g class="diagram-node-fill" style="animation-delay:0.9s">
+          <rect x="720" y="42" width="140" height="36" fill="none" stroke="#1F7A5C" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="790" y="65" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#1F7A5C">Razorpay / Stripe</text>
+
+          <rect x="720" y="182" width="140" height="36" fill="none" stroke="#1F7A5C" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="790" y="205" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#1F7A5C">ETL — Badger Liquor</text>
+        </g>
+      </svg>
+    </div>
+    <div class="diagram-caption">
+      <span>FIG. 1 — ONE SYSTEM FROM THE PORTFOLIO, 2023–PRESENT</span>
+      <span>SCALE N.T.S.</span>
+    </div>
+  </div>
+
+  <!-- READOUT -->
+  <div class="readout">
+    <div class="readout-cell">
+      <div class="readout-num">40%</div>
+      <div class="readout-desc">Cut in manual data entry after shipping the Inventory Management System</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-num">30%</div>
+      <div class="readout-desc">Performance gain from query and caching optimisation across Laravel/Vue apps</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-num">2×</div>
+      <div class="readout-desc">Represented WebReinvent Technologies at Laracon India</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-num">10+</div>
+      <div class="readout-desc">Client websites shipped with custom admin panels and RBAC</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section id="about">
+    <div class="section-head">
+      <h2>Summary</h2>
+      <span class="idx">§ 01</span>
+    </div>
+    <div class="summary-grid">
+      <div class="label">READ THIS FIRST</div>
+      <p>
+        I build backend-heavy web systems — ERPs, RESTful APIs, and ETL pipelines —
+        mostly in PHP, Laravel, and Vue.js. Recent work spans an inventory-to-payments
+        ERP, a large-scale data pipeline handling enterprise-volume ingestion, and a
+        multi-tenant SaaS platform with payroll and HRMS built in. I've contributed to
+        open-source Laravel projects and represented my company twice at Laracon India.
+      </p>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-head">
+      <h2>Work Experience</h2>
+      <span class="idx">§ 02</span>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-when">MAR 2023<br>— PRESENT</div>
+        <div>
+          <div class="tl-role">Full Stack Developer</div>
+          <div class="tl-org">WebReinvent Technologies Pvt. Ltd., Delhi</div>
+          <ul>
+            <li>Architected Simco ERP — inventory, invoicing, purchase orders, payments and delivery — and a separate Inventory Management System that cut manual data entry by 40%. Acted as primary client liaison throughout.</li>
+            <li>Built a production-grade ETL pipeline for Badger Liquor, handling high-volume ingestion and transformation at enterprise scale.</li>
+            <li>Optimised queries and caching across Laravel/Vue.js applications for a 30% performance improvement.</li>
+            <li>Integrated Razorpay, Stripe and PayPal; secured SPAs with Laravel Sanctum / JWT; implemented Pinia state management.</li>
+            <li>Contributed features and fixes to open-source VaahCMS and VaahStore (Laravel 10, Vue 3, PrimeVue).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">SEP 2021<br>— JUN 2022</div>
+        <div>
+          <div class="tl-role">Web Developer</div>
+          <div class="tl-org">Kliff Technologies, Delhi</div>
+          <ul>
+            <li>Built 10+ websites with Core PHP, HTML5, Bootstrap and JavaScript, including custom admin panels, RBAC and CMS solutions — reducing client dependency on external agencies by 50%.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head">
+      <h2>Selected Projects</h2>
+      <span class="idx">§ 03</span>
+    </div>
+    <div class="plate-grid">
+      <div class="plate">
+        <div class="plate-head">
+          <h3>Simco — ERP Software</h3>
+        </div>
+        <p>End-to-end ERP covering Inventory, Invoice Generation, Purchase Orders, Payment Processing and Delivery Tracking. Full client engagement, start to finish.</p>
+        <div class="plate-tags"><span>Laravel</span><span>Vue.js</span><span>MySQL</span></div>
+      </div>
+      <div class="plate">
+        <div class="plate-head">
+          <h3>Badger Liquor — ETL System</h3>
+        </div>
+        <p>Production-grade pipeline for high-volume data ingestion, transformation and loading across distributed sources, built for reliability at enterprise scale.</p>
+        <div class="plate-tags"><span>ETL</span><span>Laravel</span><span>MySQL</span></div>
+      </div>
+      <div class="plate">
+        <div class="plate-head">
+          <h3>OHO — Multi-Tenant SaaS</h3>
+          <a href="https://webreinvent.ohoapps.com" target="_blank" rel="noopener">webreinvent.ohoapps.com</a>
+        </div>
+        <p>Multi-tenant platform with project &amp; task management, automated payroll, HRMS and role-based access control.</p>
+        <div class="plate-tags"><span>Laravel</span><span>Vue 3</span><span>RBAC</span></div>
+      </div>
+      <div class="plate">
+        <div class="plate-head">
+          <h3>VaahStore — E-Commerce Backend</h3>
+          <a href="https://vaah.dev/store" target="_blank" rel="noopener">vaah.dev/store</a>
+        </div>
+        <p>Open-source Laravel backend with multi-store, multi-vendor and multi-currency support, RESTful APIs and third-party integrations.</p>
+        <div class="plate-tags"><span>Open Source</span><span>Laravel</span><span>REST API</span></div>
+      </div>
+      <div class="plate">
+        <div class="plate-head">
+          <h3>BriBooks — Book Platform API</h3>
+        </div>
+        <p>Laravel 13 backend for a book writing and publishing platform: chapters, pages, manuscript uploads and version snapshots, moved through a role-based draft → review → publish workflow with moderation and event-driven notifications.</p>
+        <div class="plate-tags"><span>Laravel 13</span><span>JWT</span><span>RBAC</span><span>PHPUnit</span></div>
+      </div>
+      <div class="plate">
+        <div class="plate-head">
+          <h3>AcharMaa — D2C Storefront</h3>
+          <a href="https://achar-maa.vercel.app/" target="_blank" rel="noopener">achar-maa.vercel.app</a>
+        </div>
+        <p>SEO-optimised storefront for a homemade pickle brand, built to feel fast and clean on any device. Checkout, order management and an admin dashboard are planned next.</p>
+        <div class="plate-tags"><span>Nuxt 3</span><span>Vue 3</span><span>Tailwind CSS</span></div>
+      </div>
+    </div>
+    <div class="more-projects">
+      <span>A selection, not the full list</span>
+      <a href="https://github.com/vineethub" target="_blank" rel="noopener">More on GitHub — github.com/vineethub</a>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="section-head">
+      <h2>Technical Stack</h2>
+      <span class="idx">§ 04</span>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-row">
+        <div class="stack-cat">LANGUAGES</div>
+        <div class="stack-items">
+          <span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat">FRAMEWORKS</div>
+        <div class="stack-items">
+          <span class="tag">Laravel</span><span class="tag">CodeIgniter</span><span class="tag">Vue 3</span><span class="tag">Nuxt.js</span><span class="tag">PrimeVue</span><span class="tag">Bootstrap</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat">BACKEND</div>
+        <div class="stack-items">
+          <span class="tag">REST APIs</span><span class="tag">ERP Dev</span><span class="tag">ETL Pipelines</span><span class="tag">Multi-Tenant SaaS</span><span class="tag">HMVC</span><span class="tag">MVC</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat">DATA / AUTH</div>
+        <div class="stack-items">
+          <span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">Sanctum</span><span class="tag">JWT</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat">TOOLING</div>
+        <div class="stack-items">
+          <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Postman</span><span class="tag">Pinia</span><span class="tag">Razorpay</span><span class="tag">Stripe</span><span class="tag">PayPal</span><span class="tag">VaahCMS</span><span class="tag">cPanel</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION / ACHIEVEMENTS -->
+  <section id="education">
+    <div class="section-head">
+      <h2>Education &amp; Achievements</h2>
+      <span class="idx">§ 05</span>
+    </div>
+    <div class="two-col">
+      <div class="edu-block">
+        <div class="when">2022 — 2026</div>
+        <h3>Bachelor of Computer Applications (BCA)</h3>
+        <p>IGNOU — Indira Gandhi National Open University</p>
+      </div>
+      <div>
+        <div class="ach-item">
+          <div class="ach-num">01</div>
+          <div>
+            <h4>Laracon India — Company Representative, 2×</h4>
+            <p>Selected to represent WebReinvent Technologies at Laracon India on two occasions, engaging with the Laravel community and presenting company and open-source work.</p>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-num">02</div>
+          <div>
+            <h4>Open-Source Contributor</h4>
+            <p>Ongoing contributions to VaahCMS and VaahStore, both built on Laravel 10 and Vue 3.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="sheet">
+    <div class="contact-grid">
+      <h2>Let's build something that needs to hold up at scale.</h2>
+      <div class="contact-list">
+        <a href="mailto:kushwahavineet651@gmail.com"><span class="k">EMAIL</span>kushwahavineet651@gmail.com</a>
+        <a href="tel:+919958362265"><span class="k">PHONE</span>+91 9958362265</a>
+        <a href="https://github.com/vineethub" target="_blank" rel="noopener"><span class="k">GITHUB</span>vineethub</a>
+        <a href="https://linkedin.com/in/vineet-kumar" target="_blank" rel="noopener"><span class="k">LINKEDIN</span>vineet-kumar</a>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>VINEET KUMAR — FULL STACK DEVELOPER</span>
+      <span>DELHI, INDIA</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

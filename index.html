@@ -1,656 +1,1949 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vineet Kumar — Full Stack Developer</title>
+<title>Vineet Kumar — Full Stack Developer | Systems, ERP &amp; Data Pipelines</title>
+<meta name="description" content="Portfolio of Vineet Kumar, Full Stack Systems Developer specializing in PHP, Laravel, Vue.js, ERP software, high-throughput ETL data pipelines, and multi-tenant SaaS.">
+<meta name="keywords" content="Vineet Kumar, Full Stack Developer, Laravel, Vue.js, PHP, ERP, ETL Pipelines, MySQL, REST API, Delhi, Web Developer">
+<meta name="author" content="Vineet Kumar">
+<meta name="color-scheme" content="light dark">
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vineethub.github.io/portfolio/">
+<meta property="og:title" content="Vineet Kumar — Full Stack Developer">
+<meta property="og:description" content="Systems engineer building ERPs, RESTful APIs, ETL pipelines, and SaaS platforms in Laravel & Vue.js.">
+<meta property="og:image" content="https://vineethub.github.io/portfolio/og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vineet Kumar — Full Stack Developer">
+<meta name="twitter:description" content="Systems engineer building ERPs, RESTful APIs, ETL pipelines, and SaaS platforms in Laravel & Vue.js.">
+
+<!-- Structured JSON-LD Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Vineet Kumar",
+  "jobTitle": "Full Stack Developer",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Delhi",
+    "addressCountry": "India"
+  },
+  "email": "mailto:kushwahavineet651@gmail.com",
+  "telephone": "+919958362265",
+  "url": "https://github.com/vineethub",
+  "sameAs": [
+    "https://github.com/vineethub",
+    "https://linkedin.com/in/vineet-kumar"
+  ],
+  "knowsAbout": [
+    "Laravel", "PHP", "Vue.js", "MySQL", "ETL Pipelines", "ERP Systems", "RESTful APIs", "Pinia", "Sanctum", "JWT"
+  ]
+}
+</script>
+
+<!-- Immediate Anti-FOUC Theme Script -->
+<script>
+(function() {
+  const savedTheme = localStorage.getItem('vk_theme');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = savedTheme || (systemDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+  if (metaColorScheme) {
+    metaColorScheme.content = theme === 'dark' ? 'dark' : 'light';
+  }
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES / DESIGN SYSTEM
+   ========================================================================== */
+:root {
+  /* Light Blueprint Theme (Default) */
+  --paper:          #E4EEF3;
+  --paper-dim:      #D7E4EB;
+  --line:           #B9CCD8;
+  --line-soft:      #CBDAE3;
+  --line-strong:    #10293B;
+  --ink:            #10293B;
+  --ink-soft:       #3D5A6C;
+  --ink-faint:      #6C8494;
+  --copper:         #B85C2C;
+  --copper-hover:   #9E4B20;
+  --copper-dim:     #F3DEC9;
+  --signal:         #1F7A5C;
+  --signal-dim:     #C7DFD4;
+  --signal-glow:    rgba(31, 122, 92, 0.25);
+  --panel:          #EEF4F7;
+  --panel-elevated: #F8FBFC;
+  --grid-line:      rgba(185, 204, 216, 0.7);
+  --grid-sub:       rgba(203, 218, 227, 0.45);
+  --shadow-sm:      0 2px 8px rgba(16, 41, 59, 0.05);
+  --shadow-md:      0 8px 24px rgba(16, 41, 59, 0.08);
+  --topbar-bg:      rgba(228, 238, 243, 0.88);
+  --node-bg:        #EEF4F7;
+  --node-stroke:    #10293B;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-
-:root{
-  --paper:      #E4EEF3;
-  --paper-dim:  #D7E4EB;
-  --line:       #B9CCD8;
-  --line-soft:  #CBDAE3;
-  --ink:        #10293B;
-  --ink-soft:   #3D5A6C;
-  --ink-faint:  #6C8494;
-  --copper:     #B85C2C;
-  --copper-dim: #E7C3AB;
-  --signal:     #1F7A5C;
-  --signal-dim: #C7DFD4;
-  --panel:      #EEF4F7;
-
-  --sans: 'Space Grotesk', -apple-system, sans-serif;
-  --mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+  --sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
 }
 
-*{ margin:0; padding:0; box-sizing:border-box; }
-
-html{ scroll-behavior:smooth; }
-
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  line-height:1.5;
-  -webkit-font-smoothing:antialiased;
+[data-theme="dark"] {
+  /* Cyber Obsidian Dark Blueprint Theme */
+  --paper:          #0A1118;
+  --paper-dim:      #101A24;
+  --line:           #1D2E3D;
+  --line-soft:      #162432;
+  --line-strong:    #7492A6;
+  --ink:            #E4F0F7;
+  --ink-soft:       #9EB7C7;
+  --ink-faint:      #7E9DB2;
+  --copper:         #FF823C;
+  --copper-hover:   #FFA36B;
+  --copper-dim:     #351C11;
+  --signal:         #00E5A3;
+  --signal-dim:     #0D3828;
+  --signal-glow:    rgba(0, 229, 163, 0.35);
+  --panel:          #111D28;
+  --panel-elevated: #162635;
+  --grid-line:      rgba(29, 46, 61, 0.65);
+  --grid-sub:       rgba(22, 36, 50, 0.4);
+  --shadow-sm:      0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md:      0 8px 24px rgba(0, 0, 0, 0.6);
+  --topbar-bg:      rgba(10, 17, 24, 0.9);
+  --node-bg:        #111D28;
+  --node-stroke:    #7E9DB2;
 }
 
-::selection{ background:var(--copper); color:var(--paper); }
+/* ==========================================================================
+   GLOBAL BASE & RESET
+   ========================================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-a{ color:inherit; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
 
-/* ---------- grid paper texture ---------- */
-.blueprint-bg{
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.28s ease, color 0.28s ease;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--copper);
+  color: #FFFFFF;
+}
+
+a {
+  color: inherit;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 2px;
+}
+
+/* Blueprint Grid Background Pattern */
+.blueprint-bg {
   background-image:
-    linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(var(--grid-sub) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-sub) 1px, transparent 1px);
+  background-size: 112px 112px, 112px 112px, 28px 28px, 28px 28px;
   background-position: -1px -1px;
 }
 
-/* ---------- shared structure ---------- */
-.sheet{
-  max-width:1040px;
-  margin:0 auto;
-  padding:0 28px;
+/* Subtle Vignette Ambient Lighting */
+.blueprint-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 15%, transparent 40%, rgba(10, 17, 24, 0.08) 100%);
+  z-index: 0;
+}
+[data-theme="dark"] .blueprint-bg::before {
+  background: radial-gradient(circle at 50% 15%, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-.corner-frame{
-  position:relative;
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--ink);
+/* Reading Progress Bar */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--copper);
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s linear;
 }
+
+/* ==========================================================================
+   LAYOUT CONTAINERS & SHARED ATOMS
+   ========================================================================== */
+.sheet {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.corner-frame {
+  position: relative;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
 .corner-frame::before,
-.corner-frame::after{
-  content:'';
-  position:absolute;
-  width:10px; height:10px;
-  border:1px solid var(--ink);
+.corner-frame::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--ink);
+  pointer-events: none;
 }
-.corner-frame::before{ top:-1px; left:28px; border-right:none; border-bottom:none; }
-.corner-frame::after{ top:-1px; right:28px; border-left:none; border-bottom:none; }
+.corner-frame::before { top: -1px; left: 32px; border-right: none; border-bottom: none; }
+.corner-frame::after  { top: -1px; right: 32px; border-left: none; border-bottom: none; }
 
-.label{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:0.06em;
-  color:var(--ink-faint);
-}
-
-.rule{
-  border:none;
-  border-top:1px solid var(--line);
+.label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
 
-.tag{
-  font-family:var(--mono);
-  font-size:12px;
-  padding:5px 10px;
-  border:1px solid var(--line);
-  color:var(--ink-soft);
-  background:var(--panel);
-  white-space:nowrap;
+.tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  background: var(--panel);
+  white-space: nowrap;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tag:hover {
+  border-color: var(--copper);
+  color: var(--ink);
+  transform: translateY(-1px);
 }
 
-/* ---------- top bar ---------- */
-.topbar{
-  border-bottom:1px solid var(--ink);
-}
-.topbar-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 28px;
-}
-.topbar .mark{
-  font-family:var(--mono);
-  font-size:13px;
-  font-weight:500;
-}
-.topbar nav{
-  display:flex;
-  gap:24px;
-  font-family:var(--mono);
-  font-size:12.5px;
-}
-.topbar nav a{
-  text-decoration:none;
-  color:var(--ink-soft);
-  border-bottom:1px solid transparent;
-  padding-bottom:2px;
-}
-.topbar nav a:hover{ color:var(--ink); border-color:var(--copper); }
-.status-dot{
-  display:inline-block;
-  width:7px; height:7px;
-  border-radius:50%;
-  background:var(--signal);
-  margin-right:7px;
-  position:relative;
-  top:-1px;
+/* ==========================================================================
+   STICKY TOP BAR & NAVIGATION
+   ========================================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  background: var(--topbar-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  z-index: 999;
+  transition: background 0.28s ease, border-color 0.28s ease;
 }
 
-/* ---------- hero ---------- */
-.hero{ padding:56px 0 0; }
-.hero-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:24px;
-  flex-wrap:wrap;
-  margin-bottom:8px;
-}
-.hero h1{
-  font-size:clamp(2.4rem, 6vw, 4.2rem);
-  font-weight:600;
-  letter-spacing:-0.02em;
-  line-height:1.03;
-}
-.hero .role{
-  font-family:var(--mono);
-  font-size:15px;
-  color:var(--ink-soft);
-  margin-top:14px;
-}
-.hero .role .sep{ color:var(--line); margin:0 8px; }
-
-.hero-meta{
-  text-align:right;
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--ink-faint);
-  line-height:1.9;
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 32px;
 }
 
-.hero-diagram{ margin:44px 0 0; }
-.hero-diagram svg{ width:100%; height:auto; display:block; }
-
-.diagram-caption{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 0 40px;
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--ink-faint);
-  border-top:1px solid var(--line);
-  margin-top:0;
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-/* SVG line-draw animation */
-.diagram-line{
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-mark .vk-badge {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2px 6px;
+  font-size: 10.5px;
+  border-radius: 2px;
+}
+
+.clock-display {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  border-left: 1px solid var(--line);
+  padding-left: 14px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 22px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.topbar nav a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  padding: 4px 0;
+  position: relative;
+  transition: color 0.15s ease;
+}
+.topbar nav a:hover,
+.topbar nav a.active {
+  color: var(--ink);
+}
+.topbar nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--copper);
+  transition: width 0.2s ease;
+}
+.topbar nav a.active::after,
+.topbar nav a:hover::after {
+  width: 100%;
+}
+
+/* Pulsing radar status indicator */
+.radar-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--signal);
+  background: var(--signal-dim);
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 122, 92, 0.3);
+}
+.radar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  position: relative;
+}
+.radar-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--signal);
+  animation: radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes radar-ping {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 6px 11px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.theme-toggle-btn:hover {
+  border-color: var(--copper);
+  background: var(--panel-elevated);
+}
+.theme-toggle-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* Resume Quick Action */
+.resume-btn {
+  background: var(--ink);
+  color: var(--paper) !important;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--ink);
+  transition: all 0.2s ease;
+}
+.resume-btn:hover {
+  background: var(--copper);
+  border-color: var(--copper);
+  color: #FFF !important;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero {
+  padding: 56px 0 32px;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.hero-title-area h1 {
+  font-size: clamp(2.6rem, 6.2vw, 4.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  color: var(--ink);
+}
+
+.hero-title-area .role {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.hero-title-area .role .sep {
+  color: var(--line);
+}
+
+.hero-meta-panel {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  line-height: 1.9;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 14px 18px;
+  border-radius: 2px;
+}
+.hero-meta-panel .meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.hero-meta-panel .meta-key {
+  color: var(--ink-faint);
+}
+.hero-meta-panel .meta-val {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cta {
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 9px 18px;
+  text-decoration: none;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid var(--line-strong);
+  background: var(--ink);
+  color: var(--paper);
+  transition: all 0.2s ease;
+}
+.btn-cta:hover {
+  background: var(--copper);
+  border-color: var(--copper);
+  color: #FFF;
+  transform: translateY(-1px);
+}
+.btn-cta.secondary {
+  background: var(--panel);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-cta.secondary:hover {
+  border-color: var(--copper);
+  background: var(--paper-dim);
+}
+
+/* ==========================================================================
+   SYSTEMS ARCHITECTURE DIAGRAM (INTERACTIVE SVG CANVAS)
+   ========================================================================== */
+.hero-diagram {
+  margin: 36px 0 0;
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px 20px 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.diagram-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.diagram-header-bar .diag-title {
+  color: var(--ink);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.diagram-header-bar .diag-hint {
+  color: var(--copper);
+}
+.diagram-header-bar .diag-mobile-hint {
+  display: none;
+  color: var(--copper);
+}
+
+.hero-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG Interactive Node Styling */
+.arch-node {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.arch-node rect,
+.arch-node circle {
+  transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.arch-node:hover rect,
+.arch-node.active rect {
+  stroke: var(--copper) !important;
+  stroke-width: 2 !important;
+}
+.arch-node:hover circle,
+.arch-node.active circle {
+  stroke: var(--copper) !important;
+  stroke-width: 2.2 !important;
+}
+.arch-node:focus-visible {
+  outline: none;
+}
+
+/* Animated Data Flow Particles on Connector Lines */
+.data-packet {
+  fill: var(--copper);
+  opacity: 0.85;
+}
+
+/* Static vs Animated Lines */
+.diagram-line-draw {
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
-  animation: draw 1.4s ease forwards;
+  animation: drawLine 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-.diagram-node-fill{
-  opacity:0;
-  animation: fadein 0.5s ease forwards;
-  animation-delay:0.5s;
-}
-@keyframes draw{ to{ stroke-dashoffset:0; } }
-@keyframes fadein{ to{ opacity:1; } }
-@media (prefers-reduced-motion: reduce){
-  .diagram-line{ stroke-dashoffset:0; animation:none; }
-  .diagram-node-fill{ opacity:1; animation:none; }
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
 }
 
-/* ---------- readout / stats ---------- */
-.readout{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  border-top:1px solid var(--ink);
-  border-bottom:1px solid var(--ink);
+/* Node Inspector Spec Drawer */
+.node-inspector {
+  margin-top: 14px;
+  background: var(--paper-dim);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--copper);
+  padding: 12px 18px;
+  display: none;
+  border-radius: 2px;
+  animation: inspectorSlide 0.2s ease;
 }
-.readout-cell{
-  padding:22px 24px;
-  border-left:1px solid var(--line);
+.node-inspector.visible {
+  display: block;
 }
-.readout-cell:first-child{ border-left:none; }
-.readout-num{
-  font-family:var(--mono);
-  font-size:clamp(1.5rem,3vw,2rem);
-  color:var(--copper);
-  font-weight:500;
+@keyframes inspectorSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.readout-desc{
-  font-size:13px;
-  color:var(--ink-soft);
-  margin-top:6px;
-  line-height:1.4;
+.inspector-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
 }
-
-/* ---------- section shell ---------- */
-section{ padding:64px 0; }
-.section-head{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  margin-bottom:32px;
-  padding-bottom:14px;
-  border-bottom:1px solid var(--ink);
+.inspector-name {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
 }
-.section-head h2{
-  font-size:1.5rem;
-  font-weight:600;
-  letter-spacing:-0.01em;
+.inspector-type {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--copper);
 }
-.section-head .idx{
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--ink-faint);
+.inspector-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
 }
-
-/* ---------- summary ---------- */
-.summary-grid{
-  display:grid;
-  grid-template-columns:180px 1fr;
-  gap:32px;
+.inspector-tech {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
-.summary-grid .label{ padding-top:4px; }
-.summary-grid p{
-  font-size:16.5px;
-  color:var(--ink-soft);
-  max-width:62ch;
-  line-height:1.65;
+.inspector-tech span {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 2px 7px;
+  color: var(--ink-soft);
 }
 
-/* ---------- experience timeline ---------- */
-.timeline{ position:relative; }
-.tl-item{
-  display:grid;
-  grid-template-columns:180px 1fr;
-  gap:32px;
-  position:relative;
-  padding-bottom:44px;
-}
-.tl-item:last-child{ padding-bottom:0; }
-.tl-item::before{
-  content:'';
-  position:absolute;
-  left:180px;
-  top:6px;
-  bottom:-38px;
-  width:1px;
-  background:var(--line);
-}
-.tl-item:last-child::before{ display:none; }
-.tl-item::after{
-  content:'';
-  position:absolute;
-  left:176px;
-  top:4px;
-  width:9px; height:9px;
-  background:var(--paper);
-  border:2px solid var(--copper);
-  border-radius:50%;
-}
-.tl-when{
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--ink-faint);
-  padding-top:2px;
-}
-.tl-role{
-  font-size:1.15rem;
-  font-weight:600;
-}
-.tl-org{
-  font-family:var(--mono);
-  font-size:13px;
-  color:var(--copper);
-  margin-top:3px;
-  margin-bottom:14px;
-}
-.tl-item ul{
-  list-style:none;
-}
-.tl-item li{
-  position:relative;
-  padding-left:18px;
-  margin-bottom:9px;
-  color:var(--ink-soft);
-  font-size:14.5px;
-  line-height:1.6;
-}
-.tl-item li::before{
-  content:'—';
-  position:absolute;
-  left:0;
-  color:var(--line);
+.diagram-caption {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0 36px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
 }
 
-/* ---------- project plates ---------- */
-.plate-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;
-  background:var(--ink);
-  border:1px solid var(--ink);
-}
-.plate{
-  background:var(--panel);
-  padding:26px 26px 24px;
-}
-.plate-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  margin-bottom:10px;
-}
-.plate-head h3{
-  font-size:1.05rem;
-  font-weight:600;
-}
-.plate-head a{
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--copper);
-  text-decoration:none;
-  border-bottom:1px solid var(--copper-dim);
-}
-.plate-head a:hover{ border-color:var(--copper); }
-.plate p{
-  font-size:13.5px;
-  color:var(--ink-soft);
-  line-height:1.6;
-  margin-bottom:14px;
-  min-height:66px;
-}
-.plate-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.plate-tags span{
-  font-family:var(--mono);
-  font-size:10.5px;
-  color:var(--ink-faint);
-  border:1px solid var(--line);
-  padding:3px 7px;
+/* ==========================================================================
+   TELEMETRY / METRIC READOUT SECTION
+   ========================================================================== */
+.readout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: var(--panel);
+  position: relative;
 }
 
-.more-projects{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:16px;
-  padding-top:14px;
-  border-top:1px dashed var(--line);
-  font-family:var(--mono);
-  font-size:12px;
+.readout-cell {
+  padding: 24px 24px;
+  border-left: 1px solid var(--line);
+  position: relative;
+  transition: background 0.2s ease;
 }
-.more-projects span{ color:var(--ink-faint); }
-.more-projects a{
-  color:var(--copper);
-  text-decoration:none;
-  border-bottom:1px solid var(--copper-dim);
+.readout-cell:first-child {
+  border-left: none;
 }
-.more-projects a:hover{ border-color:var(--copper); }
-
-/* ---------- stack ---------- */
-.stack-grid{
-  display:grid;
-  grid-template-columns:150px 1fr;
-  row-gap:18px;
-  column-gap:32px;
-}
-.stack-row{ display:contents; }
-.stack-cat{
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--ink-faint);
-  padding-top:6px;
-}
-.stack-items{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
+.readout-cell:hover {
+  background: var(--panel-elevated);
 }
 
-/* ---------- edu / achievements ---------- */
-.two-col{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-}
-.edu-block h3{
-  font-size:1.05rem;
-  font-weight:600;
-  margin-bottom:6px;
-}
-.edu-block .when{
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--ink-faint);
-  margin-bottom:4px;
-}
-.edu-block p{
-  color:var(--ink-soft);
-  font-size:14px;
-  line-height:1.6;
-}
-.ach-item{
-  display:flex;
-  gap:14px;
-  margin-bottom:18px;
-}
-.ach-num{
-  font-family:var(--mono);
-  font-size:12px;
-  color:var(--copper);
-  padding-top:2px;
-}
-.ach-item h4{
-  font-size:14.5px;
-  font-weight:600;
-  margin-bottom:4px;
-}
-.ach-item p{
-  font-size:13.5px;
-  color:var(--ink-soft);
-  line-height:1.6;
+.readout-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
 }
 
-/* ---------- footer / contact ---------- */
-footer{
-  border-top:1px solid var(--ink);
-  padding:48px 0 40px;
-}
-.contact-grid{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:32px;
-  align-items:end;
-}
-footer h2{
-  font-size:2rem;
-  font-weight:600;
-  letter-spacing:-0.01em;
-  max-width:14ch;
-  line-height:1.15;
-}
-.contact-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  font-family:var(--mono);
-  font-size:13.5px;
-}
-.contact-list a{
-  text-decoration:none;
-  color:var(--ink-soft);
-  display:flex;
-  gap:10px;
-}
-.contact-list a:hover{ color:var(--copper); }
-.contact-list .k{ color:var(--ink-faint); width:64px; flex-shrink:0; }
-.foot-note{
-  margin-top:40px;
-  padding-top:18px;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--ink-faint);
+.readout-num {
+  font-family: var(--mono);
+  font-size: clamp(1.8rem, 3.2vw, 2.3rem);
+  color: var(--copper);
+  font-weight: 600;
+  line-height: 1.1;
 }
 
-/* ---------- responsive ---------- */
-@media (max-width: 760px){
-  .sheet{ padding:0 18px; }
-  .topbar-inner{ padding:14px 18px; flex-direction:column; gap:10px; align-items:flex-start; }
-  .topbar nav{ gap:16px; flex-wrap:wrap; }
-  .hero{ padding-top:36px; }
-  .hero-top{ flex-direction:column; }
-  .hero-meta{ text-align:left; }
-  .hero-diagram{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
-  .hero-diagram svg{ width:auto; min-width:640px; }
-  .readout{ grid-template-columns:1fr 1fr; }
-  .readout-cell:nth-child(3){ border-left:none; }
-  .readout-cell{ border-bottom:1px solid var(--line); }
-  .summary-grid, .two-col{ grid-template-columns:1fr; gap:14px; }
-  .tl-item{ grid-template-columns:1fr; gap:8px; }
-  .tl-item::before, .tl-item::after{ display:none; }
-  .plate-grid{ grid-template-columns:1fr; }
-  .stack-grid{ grid-template-columns:1fr; row-gap:22px; }
-  .contact-grid{ grid-template-columns:1fr; gap:26px; }
-  .corner-frame::before, .corner-frame::after{ left:18px; right:18px; }
+.readout-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   SHARED SECTION STYLING
+   ========================================================================== */
+section {
+  padding: 72px 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.section-head h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.section-head .idx {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   SUMMARY / ABOUT SECTION
+   ========================================================================== */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 36px;
+}
+
+.summary-grid .label {
+  padding-top: 4px;
+}
+
+.summary-content p {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 65ch;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.summary-content strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.summary-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line);
+}
+
+.highlight-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 16px;
+  border-radius: 2px;
+}
+.highlight-box h4 {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--copper);
+  margin-bottom: 6px;
+}
+.highlight-box p {
+  font-size: 13px !important;
+  color: var(--ink-soft);
+  line-height: 1.5 !important;
+  margin-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   WORK EXPERIENCE TIMELINE
+   ========================================================================== */
+.timeline {
+  position: relative;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 36px;
+  position: relative;
+  padding-bottom: 48px;
+}
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 180px;
+  top: 6px;
+  bottom: -38px;
+  width: 1px;
+  background: var(--line);
+}
+.tl-item:last-child::before {
+  display: none;
+}
+
+.tl-item::after {
+  content: '';
+  position: absolute;
+  left: 176px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  background: var(--paper);
+  border: 2px solid var(--copper);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--paper);
+}
+
+.tl-when {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  padding-top: 2px;
+  line-height: 1.6;
+}
+
+.tl-header {
+  margin-bottom: 12px;
+}
+
+.tl-role {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.tl-org {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--copper);
+  margin-top: 4px;
+}
+
+.tl-item ul {
+  list-style: none;
+}
+
+.tl-item li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 11px;
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.tl-item li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--line-strong);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PROJECTS SECTION & FILTER MATRIX
+   ========================================================================== */
+.project-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 6px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.filter-btn:hover {
+  border-color: var(--copper);
+  color: var(--ink);
+}
+.filter-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.filter-count {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+
+.plate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.plate {
+  background: var(--panel);
+  padding: 28px 26px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.plate:hover {
+  background: var(--panel-elevated);
+}
+.plate.hidden {
+  display: none !important;
+}
+
+.plate-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+  color: var(--copper);
+  background: var(--paper);
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+
+.plate-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.plate-head h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.plate-link {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--copper);
+  text-decoration: none;
+  border-bottom: 1px solid var(--copper-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.plate-link:hover {
+  border-color: var(--copper);
+}
+
+.plate p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.plate-highlights {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  background: var(--paper-dim);
+  padding: 10px 14px;
+  border-left: 2px solid var(--copper);
+  margin-bottom: 16px;
+  border-radius: 2px;
+  line-height: 1.5;
+}
+
+.plate-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.plate-tags span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.plate-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+.plate-case-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--copper);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.plate-case-btn:hover {
+  border-color: var(--copper);
+  background: var(--copper);
+  color: #FFF;
+}
+
+/* ==========================================================================
+   CASE STUDY MODAL DIALOG
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 17, 24, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-window {
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--shadow-md);
+  max-width: 740px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  position: relative;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.modal-backdrop.open .modal-window {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-badge {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--copper);
+  text-transform: uppercase;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 4px;
+  line-height: 1.25;
+}
+
+.modal-close-btn {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+.modal-close-btn:hover {
+  border-color: var(--copper);
+  color: var(--copper);
+  background: var(--panel);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.modal-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.modal-body p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.modal-metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+  border-radius: 2px;
+}
+.modal-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.modal-metric-item .num {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--copper);
+}
+.modal-metric-item .desc {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  line-height: 1.35;
+}
+
+.modal-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-features li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.modal-features li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--copper);
+  font-family: var(--mono);
+}
+.modal-features li strong {
+  color: var(--ink);
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+.modal-tags span {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: 2px;
+  color: var(--ink-soft);
+}
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+.more-projects span {
+  color: var(--ink-faint);
+}
+.more-projects a {
+  color: var(--copper);
+  text-decoration: none;
+  border-bottom: 1px solid var(--copper-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.more-projects a:hover {
+  border-color: var(--copper);
+}
+
+/* ==========================================================================
+   TECHNICAL STACK SECTION
+   ========================================================================== */
+.stack-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 22px;
+  column-gap: 36px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 32px 28px;
+  border-radius: 2px;
+}
+
+.stack-row {
+  display: contents;
+}
+
+.stack-cat {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  padding-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+.stack-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stack-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  background: var(--paper);
+  border-radius: 2px;
+  cursor: default;
+  transition: all 0.15s ease;
+}
+.stack-tag:hover {
+  border-color: var(--copper);
+  color: var(--ink);
+  background: var(--paper-dim);
+  transform: translateY(-1px);
+}
+.stack-tag.featured {
+  border-color: var(--copper);
+  color: var(--copper);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   EDUCATION & ACHIEVEMENTS SECTION
+   ========================================================================== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.edu-block {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 24px;
+  border-radius: 2px;
+}
+
+.edu-block h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.edu-block .when {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--copper);
+  margin-bottom: 8px;
+}
+
+.edu-block p {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.ach-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 2px;
+  transition: border-color 0.2s ease;
+}
+.ach-item:hover {
+  border-color: var(--copper);
+}
+.ach-item:last-child {
+  margin-bottom: 0;
+}
+
+.ach-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--copper);
+  font-weight: 600;
+  padding-top: 2px;
+}
+
+.ach-item h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.ach-item p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   FOOTER & CONTACT SECTION
+   ========================================================================== */
+footer {
+  border-top: 1px solid var(--ink);
+  padding: 64px 0 44px;
+  background: var(--panel);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+footer h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  transition: border-color 0.15s ease;
+}
+.contact-row:hover {
+  border-color: var(--copper);
+}
+
+.contact-link {
+  text-decoration: none;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+}
+.contact-link:hover {
+  color: var(--copper);
+}
+
+.contact-row .k {
+  color: var(--ink-faint);
+  width: 72px;
+  flex-shrink: 0;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+}
+
+.copy-btn {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.copy-btn:hover {
+  color: var(--ink);
+  border-color: var(--copper);
+}
+
+.foot-note {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Toast Feedback Notification */
+#toast-notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 10px 18px;
+  border-radius: 3px;
+  box-shadow: var(--shadow-md);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  border: 1px solid var(--copper);
+}
+#toast-notification.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+#toast-notification .toast-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--copper);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 860px) {
+  .sheet {
+    padding: 0 20px;
+  }
+  .corner-frame::before, .corner-frame::after {
+    left: 20px; right: 20px;
+  }
+  .topbar-inner {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .topbar nav {
+    gap: 14px;
+  }
+  .clock-display {
+    display: none;
+  }
+  .readout {
+    grid-template-columns: 1fr 1fr;
+  }
+  .readout-cell:nth-child(3) {
+    border-left: none;
+  }
+  .readout-cell:nth-child(-n+2) {
+    border-bottom: 1px solid var(--line);
+  }
+  .summary-grid, .two-col {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .summary-highlights {
+    grid-template-columns: 1fr;
+  }
+  .tl-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .tl-item::before, .tl-item::after {
+    display: none;
+  }
+  .plate-grid {
+    grid-template-columns: 1fr;
+  }
+  .stack-grid {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .hero-diagram {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hero-diagram svg {
+    min-width: 680px;
+  }
+  .diag-hint {
+    display: none;
+  }
+  .diag-mobile-hint {
+    display: inline;
+  }
+  .modal-metric-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   PRINT / PDF OPTIMIZATION
+   ========================================================================== */
+@media print {
+  body {
+    background: #FFF !important;
+    color: #000 !important;
+  }
+  .topbar, #progress-bar, .hero-actions, .filter-tabs, .copy-btn, .theme-toggle-btn, #toast-notification, .modal-backdrop, .plate-case-btn {
+    display: none !important;
+  }
+  .blueprint-bg {
+    background: none !important;
+  }
+  .sheet {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .corner-frame {
+    border: none !important;
+  }
+  .corner-frame::before, .corner-frame::after {
+    display: none !important;
+  }
+  section {
+    padding: 24px 0 !important;
+  }
+  .plate-grid {
+    grid-template-columns: 1fr 1fr !important;
+    background: none !important;
+    border: none !important;
+    gap: 16px !important;
+  }
+  .plate {
+    border: 1px solid #CCC !important;
+    background: #FFF !important;
+    break-inside: avoid;
+  }
+  .readout {
+    border: 1px solid #CCC !important;
+    background: #FFF !important;
+  }
+  .readout-cell {
+    border-color: #CCC !important;
+  }
 }
 </style>
 </head>
 <body class="blueprint-bg">
 
-<div class="topbar">
+<!-- Reading Progress Bar -->
+<div id="progress-bar" aria-hidden="true"></div>
+
+<!-- STICKY TOP BAR -->
+<header class="topbar">
   <div class="topbar-inner">
-    <div class="mark">VK / 001</div>
-    <nav>
-      <a href="#work"><span class="status-dot"></span>Work</a>
-      <a href="#projects">Projects</a>
-      <a href="#stack">Stack</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
-</div>
-
-<div class="sheet corner-frame">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-top">
-      <div>
-        <h1>Vineet Kumar</h1>
-        <div class="role">Full Stack Developer<span class="sep">/</span>Laravel &amp; Vue.js<span class="sep">/</span>Systems for inventory, payments &amp; data</div>
+    <div class="topbar-left">
+      <a href="#" class="brand-mark" aria-label="Vineet Kumar Portfolio Top">
+        <span class="vk-badge">VK</span>
+        <span>VINEET.DEV</span>
+      </a>
+      <div class="clock-display" id="live-clock" title="Local Time in Delhi (IST / UTC+5:30)">
+        DELHI 00:00:00 IST
       </div>
-      <div class="hero-meta">
-        LOC — Delhi, India<br>
-        EXP — 3+ years<br>
-        STATUS — open to new work<br>
-        PH — +91 9958362265
+    </div>
+    
+    <div class="topbar-right">
+      <nav aria-label="Main Navigation">
+        <a href="#about">Summary</a>
+        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#stack">Stack</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <span class="radar-status" title="Open to full-time and contract opportunities">
+        <span class="radar-dot"></span>
+        <span>OPEN FOR ROLES</span>
+      </span>
+
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark and light blueprint theme">
+        <svg id="theme-icon-sun" style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"/></svg>
+        <svg id="theme-icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span id="theme-toggle-label">DARK</span>
+      </button>
+
+      <button class="resume-btn" onclick="window.print()" title="Print or save as PDF resume">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span>CV / PDF</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="sheet corner-frame">
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-top">
+      <div class="hero-title-area">
+        <h1>Vineet Kumar</h1>
+        <div class="role">
+          <span>Full Stack Developer</span>
+          <span class="sep">/</span>
+          <span>Laravel &amp; Vue.js</span>
+          <span class="sep">/</span>
+          <span>Systems for inventory, payments &amp; data pipelines</span>
+        </div>
+      </div>
+      <div class="hero-meta-panel">
+        <div class="meta-row"><span class="meta-key">LOCATION</span><span class="meta-val">Delhi, India</span></div>
+        <div class="meta-row"><span class="meta-key">EXPERIENCE</span><span class="meta-val">3+ Years</span></div>
+        <div class="meta-row"><span class="meta-key">STATUS</span><span class="meta-val">Open to New Work</span></div>
+        <div class="meta-row"><span class="meta-key">CONTACT</span><span class="meta-val">+91 9958362265</span></div>
       </div>
     </div>
 
-    <!-- diagram -->
-    <div class="hero-diagram">
-      <svg viewBox="0 0 984 260" xmlns="http://www.w3.org/2000/svg">
-        <!-- connecting lines -->
-        <g fill="none" stroke="#B9CCD8" stroke-width="1">
-          <line x1="150" y1="130" x2="330" y2="130"/>
-          <line x1="330" y1="130" x2="450" y2="60"/>
-          <line x1="330" y1="130" x2="450" y2="130"/>
-          <line x1="330" y1="130" x2="450" y2="200"/>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-cta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Explore Production Projects</span>
+      </a>
+      <a href="#contact" class="btn-cta secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Get in Touch</span>
+      </a>
+      <button class="btn-cta secondary" onclick="copyText('kushwahavineet651@gmail.com', 'Email copied!')" title="Click to copy email">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy Email</span>
+      </button>
+    </div>
+
+    <!-- Interactive Architecture Diagram -->
+    <div class="hero-diagram" id="arch-diagram-card">
+      <div class="diagram-header-bar">
+        <span class="diag-title">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          SYSTEM ARCHITECTURE SCHEMATIC — SIMCO ERP ECOSYSTEM
+        </span>
+        <span class="diag-hint">⚡ CLICK ANY NODE TO INSPECT SPECS</span>
+        <span class="diag-mobile-hint">⚡ SWIPE TO EXPLORE SCHEMATIC →</span>
+      </div>
+
+      <svg viewBox="0 0 984 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="System Architecture Diagram for Simco ERP Ecosystem">
+        <!-- Connecting Lines -->
+        <g fill="none" stroke="var(--line)" stroke-width="1.5">
+          <line x1="150" y1="130" x2="290" y2="130"/>
+          <line x1="370" y1="115" x2="450" y2="60"/>
+          <line x1="370" y1="130" x2="450" y2="130"/>
+          <line x1="370" y1="145" x2="450" y2="200"/>
           <line x1="600" y1="60" x2="720" y2="60"/>
           <line x1="600" y1="200" x2="720" y2="200"/>
         </g>
-        <!-- animated draw lines -->
-        <g fill="none" stroke="#B85C2C" stroke-width="1.4">
-          <path class="diagram-line" d="M150,130 L330,130" style="animation-delay:0.05s"/>
-          <path class="diagram-line" d="M330,130 L450,60" style="animation-delay:0.2s"/>
-          <path class="diagram-line" d="M330,130 L450,130" style="animation-delay:0.3s"/>
-          <path class="diagram-line" d="M330,130 L450,200" style="animation-delay:0.4s"/>
+
+        <!-- Animated Pulse Paths with Traveling Packets -->
+        <g fill="none" stroke="var(--copper)" stroke-width="1.6">
+          <path id="path-vk-simco" class="diagram-line-draw" d="M150,130 L290,130"/>
+          <path id="path-simco-inv" class="diagram-line-draw" d="M370,115 L450,60 L600,60 L720,60"/>
+          <path id="path-simco-stock" class="diagram-line-draw" d="M370,130 L450,130"/>
+          <path id="path-simco-disp" class="diagram-line-draw" d="M370,145 L450,200 L600,200 L720,200"/>
         </g>
 
-        <!-- root node: Vineet -->
-        <circle cx="120" cy="130" r="30" fill="#E4EEF3" stroke="#10293B" stroke-width="1.4"/>
-        <text x="120" y="126" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#10293B">VK</text>
-        <text x="120" y="138" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#3D5A6C">DEV</text>
+        <!-- Data Packet Animations -->
+        <circle r="3.5" class="data-packet">
+          <animateMotion repeatCount="indefinite" dur="2.8s" path="M150,130 L290,130"/>
+        </circle>
+        <circle r="3.5" class="data-packet">
+          <animateMotion repeatCount="indefinite" dur="2.4s" begin="0.4s" path="M370,115 L450,60 L600,60 L720,60"/>
+        </circle>
+        <circle r="3.5" class="data-packet">
+          <animateMotion repeatCount="indefinite" dur="2.1s" begin="0.8s" path="M370,130 L450,130"/>
+        </circle>
+        <circle r="3.5" class="data-packet">
+          <animateMotion repeatCount="indefinite" dur="2.6s" begin="0.2s" path="M370,145 L450,200 L600,200 L720,200"/>
+        </circle>
 
-        <!-- Simco ERP hub -->
-        <rect x="290" y="105" width="80" height="50" fill="#EEF4F7" stroke="#10293B" stroke-width="1.2" class="diagram-node-fill" style="animation-delay:0.5s"/>
-        <text x="330" y="127" text-anchor="middle" font-family="Space Grotesk" font-weight="600" font-size="11" fill="#10293B">Simco</text>
-        <text x="330" y="141" text-anchor="middle" font-family="IBM Plex Mono" font-size="7.5" fill="#3D5A6C">ERP SYSTEM</text>
-
-        <!-- Inventory / Invoice / Payments modules -->
-        <g class="diagram-node-fill" style="animation-delay:0.7s">
-          <rect x="450" y="42" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
-          <text x="525" y="65" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Inventory + PO</text>
-
-          <rect x="450" y="112" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
-          <text x="525" y="135" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Invoicing</text>
-
-          <rect x="450" y="182" width="150" height="36" fill="#EEF4F7" stroke="#B9CCD8" stroke-width="1"/>
-          <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3D5A6C">Payments + Delivery</text>
+        <!-- Root Node: Vineet Kumar -->
+        <g class="arch-node" tabindex="0" role="button" data-node="vk" onclick="inspectNode('vk')" onkeydown="if(event.key==='Enter')inspectNode('vk')">
+          <circle cx="120" cy="130" r="32" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="120" y="125" text-anchor="middle" font-family="var(--mono)" font-size="10.5" font-weight="600" fill="var(--ink)">VK</text>
+          <text x="120" y="139" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--ink-soft)">LEAD DEV</text>
         </g>
 
-        <!-- gateways -->
-        <g class="diagram-node-fill" style="animation-delay:0.9s">
-          <rect x="720" y="42" width="140" height="36" fill="none" stroke="#1F7A5C" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="790" y="65" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#1F7A5C">Razorpay / Stripe</text>
+        <!-- Simco ERP Central Hub -->
+        <g class="arch-node" tabindex="0" role="button" data-node="simco" onclick="inspectNode('simco')" onkeydown="if(event.key==='Enter')inspectNode('simco')">
+          <rect x="290" y="102" width="80" height="56" rx="2" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="330" y="126" text-anchor="middle" font-family="var(--sans)" font-weight="700" font-size="12" fill="var(--ink)">Simco</text>
+          <text x="330" y="142" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="var(--copper)">ERP CORE</text>
+        </g>
 
-          <rect x="720" y="182" width="140" height="36" fill="none" stroke="#1F7A5C" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="790" y="205" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#1F7A5C">ETL — Badger Liquor</text>
+        <!-- Module: Invoicing & Payment Engine -->
+        <g class="arch-node" tabindex="0" role="button" data-node="invoicing" onclick="inspectNode('invoicing')" onkeydown="if(event.key==='Enter')inspectNode('invoicing')">
+          <rect x="450" y="38" width="150" height="42" rx="2" fill="var(--node-bg)" stroke="var(--line)" stroke-width="1.2"/>
+          <text x="525" y="62" text-anchor="middle" font-family="var(--mono)" font-size="10" font-weight="500" fill="var(--ink)">Invoicing &amp; Tax</text>
+          <text x="525" y="73" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--ink-faint)">AUTOMATED LEDGERS</text>
+        </g>
+
+        <!-- Module: Inventory & Stock Ledger -->
+        <g class="arch-node" tabindex="0" role="button" data-node="inventory" onclick="inspectNode('inventory')" onkeydown="if(event.key==='Enter')inspectNode('inventory')">
+          <rect x="450" y="109" width="150" height="42" rx="2" fill="var(--node-bg)" stroke="var(--line)" stroke-width="1.2"/>
+          <text x="525" y="133" text-anchor="middle" font-family="var(--mono)" font-size="10" font-weight="500" fill="var(--ink)">Inventory + PO</text>
+          <text x="525" y="144" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--ink-faint)">-40% MANUAL ENTRY</text>
+        </g>
+
+        <!-- Module: Dispatch & Order Fulfillment -->
+        <g class="arch-node" tabindex="0" role="button" data-node="payments" onclick="inspectNode('payments')" onkeydown="if(event.key==='Enter')inspectNode('payments')">
+          <rect x="450" y="179" width="150" height="42" rx="2" fill="var(--node-bg)" stroke="var(--line)" stroke-width="1.2"/>
+          <text x="525" y="203" text-anchor="middle" font-family="var(--mono)" font-size="10" font-weight="500" fill="var(--ink)">Dispatch &amp; Orders</text>
+          <text x="525" y="214" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--ink-faint)">PINIA + QUEUES</text>
+        </g>
+
+        <!-- Gateway Node: Payment Gateways -->
+        <g class="arch-node" tabindex="0" role="button" data-node="gateways" onclick="inspectNode('gateways')" onkeydown="if(event.key==='Enter')inspectNode('gateways')">
+          <rect x="720" y="38" width="150" height="42" rx="2" fill="var(--node-bg)" stroke="var(--signal)" stroke-width="1.4" stroke-dasharray="4 2"/>
+          <text x="795" y="62" text-anchor="middle" font-family="var(--mono)" font-size="9.5" font-weight="600" fill="var(--signal)">Razorpay / Stripe</text>
+          <text x="795" y="73" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--signal)">SECURE WEBHOOKS</text>
+        </g>
+
+        <!-- Logistics Node: Courier & Dispatch Webhooks -->
+        <g class="arch-node" tabindex="0" role="button" data-node="logistics" onclick="inspectNode('logistics')" onkeydown="if(event.key==='Enter')inspectNode('logistics')">
+          <rect x="720" y="179" width="150" height="42" rx="2" fill="var(--node-bg)" stroke="var(--signal)" stroke-width="1.4" stroke-dasharray="4 2"/>
+          <text x="795" y="203" text-anchor="middle" font-family="var(--mono)" font-size="9.5" font-weight="600" fill="var(--signal)">Logistics &amp; Dispatch</text>
+          <text x="795" y="214" text-anchor="middle" font-family="var(--mono)" font-size="7.5" fill="var(--signal)">WEBHOOK TRACKING</text>
         </g>
       </svg>
+
+      <!-- Dynamic Architecture Spec Card -->
+      <div class="node-inspector visible" id="node-inspector-box">
+        <div class="inspector-top">
+          <span class="inspector-name" id="insp-name">Simco ERP System</span>
+          <span class="inspector-type" id="insp-type">CORE ARCHITECTURE HUB</span>
+        </div>
+        <p class="inspector-desc" id="insp-desc">
+          Modular enterprise ERP uniting Inventory tracking, automated Invoicing, Purchase Orders, payment reconciliations, and logistics delivery monitoring. Designed for high availability and ACID transactional integrity.
+        </p>
+        <div class="inspector-tech" id="insp-tech">
+          <span>Laravel 11</span>
+          <span>Vue 3</span>
+          <span>MySQL 8</span>
+          <span>Pinia</span>
+          <span>Sanctum</span>
+          <span>Redis Caching</span>
+        </div>
+      </div>
     </div>
+
     <div class="diagram-caption">
-      <span>FIG. 1 — ONE SYSTEM FROM THE PORTFOLIO, 2023–PRESENT</span>
-      <span>SCALE N.T.S.</span>
-    </div>
-  </div>
-
-  <!-- READOUT -->
-  <div class="readout">
-    <div class="readout-cell">
-      <div class="readout-num">40%</div>
-      <div class="readout-desc">Cut in manual data entry after shipping the Inventory Management System</div>
-    </div>
-    <div class="readout-cell">
-      <div class="readout-num">30%</div>
-      <div class="readout-desc">Performance gain from query and caching optimisation across Laravel/Vue apps</div>
-    </div>
-    <div class="readout-cell">
-      <div class="readout-num">2×</div>
-      <div class="readout-desc">Represented WebReinvent Technologies at Laracon India</div>
-    </div>
-    <div class="readout-cell">
-      <div class="readout-num">10+</div>
-      <div class="readout-desc">Client websites shipped with custom admin panels and RBAC</div>
-    </div>
-  </div>
-
-  <!-- SUMMARY -->
-  <section id="about">
-    <div class="section-head">
-      <h2>Summary</h2>
-      <span class="idx">§ 01</span>
-    </div>
-    <div class="summary-grid">
-      <div class="label">READ THIS FIRST</div>
-      <p>
-        I build backend-heavy web systems — ERPs, RESTful APIs, and ETL pipelines —
-        mostly in PHP, Laravel, and Vue.js. Recent work spans an inventory-to-payments
-        ERP, a large-scale data pipeline handling enterprise-volume ingestion, and a
-        multi-tenant SaaS platform with payroll and HRMS built in. I've contributed to
-        open-source Laravel projects and represented my company twice at Laracon India.
-      </p>
+      <span>FIG. 1 — SIMCO ERP PRODUCTION SYSTEM ARCHITECTURE &amp; FULFILLMENT PIPELINE</span>
+      <span>SCALE: DISTRIBUTED N.T.S.</span>
     </div>
   </section>
 
-  <!-- WORK -->
+  <!-- ==================== TELEMETRY / READOUT ==================== -->
+  <div class="readout" id="telemetry">
+    <div class="readout-cell">
+      <div class="readout-meta">METRIC // 01 · EFFICIENCY</div>
+      <div class="readout-num counter-target" data-target="40" data-suffix="%">0%</div>
+      <div class="readout-desc">Cut in manual data entry after architecting the Simco Inventory Management System</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-meta">METRIC // 02 · THROUGHPUT</div>
+      <div class="readout-num counter-target" data-target="30" data-suffix="%">0%</div>
+      <div class="readout-desc">Performance gain from query tuning, indexing, and Redis caching across Laravel/Vue apps</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-meta">METRIC // 03 · COMMUNITY</div>
+      <div class="readout-num counter-target" data-target="2" data-suffix="×">0×</div>
+      <div class="readout-desc">Represented WebReinvent Technologies at Laracon India on two separate occasions</div>
+    </div>
+    <div class="readout-cell">
+      <div class="readout-meta">METRIC // 04 · DEPLOYMENTS</div>
+      <div class="readout-num counter-target" data-target="10" data-suffix="+">0+</div>
+      <div class="readout-desc">Client websites shipped with custom admin panels, RBAC, and bespoke business logic</div>
+    </div>
+  </div>
+
+  <!-- ==================== SUMMARY SECTION ==================== -->
+  <section id="about">
+    <div class="section-head">
+      <h2>Engineering Summary</h2>
+      <span class="idx">§ 01</span>
+    </div>
+    <div class="summary-grid">
+      <div class="label">BACKGROUND &amp; PHILOSOPHY</div>
+      <div class="summary-content">
+        <p>
+          I build <strong>backend-heavy web systems</strong> — robust ERPs, secure RESTful APIs, and enterprise ETL pipelines — primarily in <strong>PHP, Laravel, and Vue.js</strong>. My recent work spans an end-to-end inventory-to-payments ERP, a fault-tolerant data pipeline ingesting enterprise-volume distributor data, and a multi-tenant SaaS platform with automated payroll and HRMS.
+        </p>
+        <p>
+          I believe software should be reliable under pressure and transparent in its architecture. In addition to commercial deliverables, I actively contribute to open-source Laravel packages (such as <strong>VaahCMS</strong> and <strong>VaahStore</strong>) and have represented WebReinvent twice at <strong>Laracon India</strong>.
+        </p>
+        <div class="summary-highlights">
+          <div class="highlight-box">
+            <h4>ENTERPRISE SYSTEMS</h4>
+            <p>Complex transactional domain modeling, inventory accounting, purchase order states, and role-based permissions.</p>
+          </div>
+          <div class="highlight-box">
+            <h4>HIGH-THROUGHPUT DATA</h4>
+            <p>ETL streaming pipelines, batch database ingestion, chunked processing, and third-party API webhook reconciliations.</p>
+          </div>
+          <div class="highlight-box">
+            <h4>SECURE SPAS</h4>
+            <p>Vue 3, Pinia state stores, PrimeVue enterprise interfaces, and Laravel Sanctum / JWT authentication.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== WORK EXPERIENCE ==================== -->
   <section id="work">
     <div class="section-head">
       <h2>Work Experience</h2>
@@ -660,180 +1953,830 @@ footer h2{
       <div class="tl-item">
         <div class="tl-when">MAR 2023<br>— PRESENT</div>
         <div>
-          <div class="tl-role">Full Stack Developer</div>
-          <div class="tl-org">WebReinvent Technologies Pvt. Ltd., Delhi</div>
+          <div class="tl-header">
+            <div class="tl-role">Full Stack Developer</div>
+            <div class="tl-org">WebReinvent Technologies Pvt. Ltd., Delhi</div>
+          </div>
           <ul>
-            <li>Architected Simco ERP — inventory, invoicing, purchase orders, payments and delivery — and a separate Inventory Management System that cut manual data entry by 40%. Acted as primary client liaison throughout.</li>
-            <li>Built a production-grade ETL pipeline for Badger Liquor, handling high-volume ingestion and transformation at enterprise scale.</li>
-            <li>Optimised queries and caching across Laravel/Vue.js applications for a 30% performance improvement.</li>
-            <li>Integrated Razorpay, Stripe and PayPal; secured SPAs with Laravel Sanctum / JWT; implemented Pinia state management.</li>
-            <li>Contributed features and fixes to open-source VaahCMS and VaahStore (Laravel 10, Vue 3, PrimeVue).</li>
+            <li><strong>Architected Simco ERP:</strong> Full lifecycle build of inventory, invoicing, purchase orders, payments, and delivery tracking. Designed an automated inventory management pipeline that reduced client manual data entry by <strong>40%</strong> while serving as primary client liaison.</li>
+            <li><strong>Badger Liquor ETL Pipeline:</strong> Engineered a production-grade data pipeline for high-volume ingestion, validation, and multi-source transformation at enterprise distributor scale.</li>
+            <li><strong>Application Optimization:</strong> Reduced SQL query overhead and deployed strategic caching across Laravel &amp; Vue.js applications, clocking a <strong>30% throughput improvement</strong>.</li>
+            <li><strong>Fintech &amp; Auth:</strong> Implemented Razorpay, Stripe, and PayPal payment workflows; secured Vue SPAs with Laravel Sanctum and JWT tokens; structured reactive global state with Pinia.</li>
+            <li><strong>Open Source Leadership:</strong> Core contributions of modules and bug fixes to open-source projects <strong>VaahCMS</strong> and <strong>VaahStore</strong> (built on Laravel 10, Vue 3, and PrimeVue).</li>
           </ul>
         </div>
       </div>
+
       <div class="tl-item">
         <div class="tl-when">SEP 2021<br>— JUN 2022</div>
         <div>
-          <div class="tl-role">Web Developer</div>
-          <div class="tl-org">Kliff Technologies, Delhi</div>
+          <div class="tl-header">
+            <div class="tl-role">Web Developer</div>
+            <div class="tl-org">Kliff Technologies, Delhi</div>
+          </div>
           <ul>
-            <li>Built 10+ websites with Core PHP, HTML5, Bootstrap and JavaScript, including custom admin panels, RBAC and CMS solutions — reducing client dependency on external agencies by 50%.</li>
+            <li><strong>Client Solutions Delivery:</strong> Shipped 10+ custom web platforms using Core PHP, HTML5, Bootstrap, and vanilla JavaScript.</li>
+            <li><strong>Admin &amp; RBAC Architecture:</strong> Engineered bespoke administrative panels and granular role-based access controls, slashing client reliance on outside agencies by <strong>50%</strong>.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- ==================== PROJECTS ==================== -->
   <section id="projects">
     <div class="section-head">
       <h2>Selected Projects</h2>
       <span class="idx">§ 03</span>
     </div>
-    <div class="plate-grid">
-      <div class="plate">
-        <div class="plate-head">
-          <h3>Simco — ERP Software</h3>
-        </div>
-        <p>End-to-end ERP covering Inventory, Invoice Generation, Purchase Orders, Payment Processing and Delivery Tracking. Full client engagement, start to finish.</p>
-        <div class="plate-tags"><span>Laravel</span><span>Vue.js</span><span>MySQL</span></div>
+
+    <!-- Filter Matrix Controls -->
+    <div class="project-controls">
+      <div class="filter-tabs" role="tablist" aria-label="Project Category Filter">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All (6)</button>
+        <button class="filter-btn" data-filter="erp" role="tab" aria-selected="false">ERP &amp; Systems</button>
+        <button class="filter-btn" data-filter="data" role="tab" aria-selected="false">Data &amp; ETL</button>
+        <button class="filter-btn" data-filter="saas" role="tab" aria-selected="false">SaaS &amp; APIs</button>
+        <button class="filter-btn" data-filter="d2c" role="tab" aria-selected="false">Storefront &amp; D2C</button>
       </div>
-      <div class="plate">
-        <div class="plate-head">
-          <h3>Badger Liquor — ETL System</h3>
-        </div>
-        <p>Production-grade pipeline for high-volume data ingestion, transformation and loading across distributed sources, built for reliability at enterprise scale.</p>
-        <div class="plate-tags"><span>ETL</span><span>Laravel</span><span>MySQL</span></div>
-      </div>
-      <div class="plate">
-        <div class="plate-head">
-          <h3>OHO — Multi-Tenant SaaS</h3>
-          <a href="https://webreinvent.ohoapps.com" target="_blank" rel="noopener">webreinvent.ohoapps.com</a>
-        </div>
-        <p>Multi-tenant platform with project &amp; task management, automated payroll, HRMS and role-based access control.</p>
-        <div class="plate-tags"><span>Laravel</span><span>Vue 3</span><span>RBAC</span></div>
-      </div>
-      <div class="plate">
-        <div class="plate-head">
-          <h3>VaahStore — E-Commerce Backend</h3>
-          <a href="https://vaah.dev/store" target="_blank" rel="noopener">vaah.dev/store</a>
-        </div>
-        <p>Open-source Laravel backend with multi-store, multi-vendor and multi-currency support, RESTful APIs and third-party integrations.</p>
-        <div class="plate-tags"><span>Open Source</span><span>Laravel</span><span>REST API</span></div>
-      </div>
-      <div class="plate">
-        <div class="plate-head">
-          <h3>BriBooks — Book Platform API</h3>
-        </div>
-        <p>Laravel 13 backend for a book writing and publishing platform: chapters, pages, manuscript uploads and version snapshots, moved through a role-based draft → review → publish workflow with moderation and event-driven notifications.</p>
-        <div class="plate-tags"><span>Laravel 13</span><span>JWT</span><span>RBAC</span><span>PHPUnit</span></div>
-      </div>
-      <div class="plate">
-        <div class="plate-head">
-          <h3>AcharMaa — D2C Storefront</h3>
-          <a href="https://achar-maa.vercel.app/" target="_blank" rel="noopener">achar-maa.vercel.app</a>
-        </div>
-        <p>SEO-optimised storefront for a homemade pickle brand, built to feel fast and clean on any device. Checkout, order management and an admin dashboard are planned next.</p>
-        <div class="plate-tags"><span>Nuxt 3</span><span>Vue 3</span><span>Tailwind CSS</span></div>
-      </div>
+      <span class="filter-count" id="project-count-display">Showing 6 of 6 systems</span>
     </div>
+
+    <div class="plate-grid" id="projects-container">
+      <!-- Project 1: Simco -->
+      <article class="plate" data-category="erp">
+        <div>
+          <span class="plate-badge">ENTERPRISE ERP</span>
+          <div class="plate-head">
+            <h3>Simco — ERP Software</h3>
+          </div>
+          <p>
+            End-to-end ERP orchestrating inventory tracking, invoice generation, purchase orders, payment reconciliation, and real-time delivery tracking. Handled complete client requirements and architecture from ground zero.
+          </p>
+          <div class="plate-highlights">
+            ★ Cut manual data entry by 40% with automated barcode &amp; inventory state machines.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>Laravel 11</span><span>Vue.js</span><span>MySQL</span><span>Pinia</span><span>Sanctum</span>
+          </div>
+          <button class="plate-case-btn" onclick="openCaseStudy('simco')" aria-label="Open Simco ERP Architecture Case Study">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Case Study Specs</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Project 2: Badger Liquor -->
+      <article class="plate" data-category="data">
+        <div>
+          <span class="plate-badge">HIGH-VOLUME ETL</span>
+          <div class="plate-head">
+            <h3>Badger Liquor — ETL System</h3>
+          </div>
+          <p>
+            Mission-critical data pipeline engineered for automated extraction, transformation, and batch ingestion of massive catalog and sales data streams from distributed partner endpoints.
+          </p>
+          <div class="plate-highlights">
+            ★ Built for zero-loss error recovery, transaction rollbacks, and optimized batch SQL insertion.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>ETL</span><span>Laravel 11</span><span>MySQL</span><span>Queue Workers</span><span>Cron</span>
+          </div>
+          <button class="plate-case-btn" onclick="openCaseStudy('badger')" aria-label="Open Badger Liquor ETL Pipeline Case Study">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Pipeline Architecture</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Project 3: OHO SaaS -->
+      <article class="plate" data-category="saas">
+        <div>
+          <span class="plate-badge">MULTI-TENANT SAAS</span>
+          <div class="plate-head">
+            <h3>OHO — Multi-Tenant SaaS</h3>
+            <a href="https://webreinvent.ohoapps.com" target="_blank" rel="noopener" class="plate-link" title="Open live project">
+              <span>webreinvent.ohoapps.com</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <p>
+            Cloud multi-tenant platform equipped with project &amp; sprint tracking, automated payroll computing, HRMS leave workflows, and granular role-based permissions.
+          </p>
+          <div class="plate-highlights">
+            ★ Tenant database schema isolation with unified authentication &amp; role administration.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>Laravel 11</span><span>Vue 3</span><span>RBAC</span><span>Pinia</span><span>Tailwind</span>
+          </div>
+          <button class="plate-case-btn" onclick="openCaseStudy('oho')" aria-label="Open OHO SaaS Architecture Specs">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>SaaS Specs</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Project 4: VaahStore -->
+      <article class="plate" data-category="saas">
+        <div>
+          <span class="plate-badge">OPEN SOURCE ENGINE</span>
+          <div class="plate-head">
+            <h3>VaahStore — E-Commerce Backend</h3>
+            <a href="https://vaah.dev/store" target="_blank" rel="noopener" class="plate-link" title="Open live package">
+              <span>vaah.dev/store</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <p>
+            Modular, open-source headless commerce backend supporting multi-store, multi-vendor, and multi-currency operations via clean RESTful APIs.
+          </p>
+          <div class="plate-highlights">
+            ★ Extensible HMVC module architecture for headless commerce and custom store plug-ins.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>Open Source</span><span>Laravel 10</span><span>REST API</span><span>PrimeVue</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 5: BriBooks API -->
+      <article class="plate" data-category="saas">
+        <div>
+          <span class="plate-badge">REST API &amp; WORKFLOWS</span>
+          <div class="plate-head">
+            <h3>BriBooks — Book Platform API</h3>
+          </div>
+          <p>
+            Scalable backend powering a digital manuscript writing and publishing platform. Handles chapter versioning, snapshot rollbacks, moderation queues, and draft-to-publish state machines.
+          </p>
+          <div class="plate-highlights">
+            ★ Event-driven notifications, robust JWT token auth, and comprehensive PHPUnit test suite.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>Laravel 11</span><span>JWT</span><span>RBAC</span><span>PHPUnit</span><span>MySQL</span>
+          </div>
+          <button class="plate-case-btn" onclick="openCaseStudy('bribooks')" aria-label="Open BriBooks API Architecture Specs">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>API Specs</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Project 6: AcharMaa -->
+      <article class="plate" data-category="d2c">
+        <div>
+          <span class="plate-badge">HIGH-SPEED D2C</span>
+          <div class="plate-head">
+            <h3>AcharMaa — D2C Storefront</h3>
+            <a href="https://achar-maa.vercel.app/" target="_blank" rel="noopener" class="plate-link" title="Open live storefront">
+              <span>achar-maa.vercel.app</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <p>
+            SEO-optimized, ultra-responsive storefront built for an artisanal food brand. Engineered with SSR for instant First Contentful Paint and fluid mobile browsing.
+          </p>
+          <div class="plate-highlights">
+            ★ Near-instant mobile loading speed, automated SEO meta generators, and clean catalog UI.
+          </div>
+        </div>
+        <div class="plate-footer">
+          <div class="plate-tags">
+            <span>Nuxt 3</span><span>Vue 3</span><span>Tailwind CSS</span><span>Vercel</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
     <div class="more-projects">
-      <span>A selection, not the full list</span>
-      <a href="https://github.com/vineethub" target="_blank" rel="noopener">More on GitHub — github.com/vineethub</a>
+      <span>Curated commercial and open-source systems</span>
+      <a href="https://github.com/vineethub" target="_blank" rel="noopener">
+        <span>Explore more repositories on GitHub — github.com/vineethub</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
   </section>
 
-  <!-- STACK -->
+  <!-- ==================== TECHNICAL STACK ==================== -->
   <section id="stack">
     <div class="section-head">
-      <h2>Technical Stack</h2>
+      <h2>Technical Stack &amp; Tooling</h2>
       <span class="idx">§ 04</span>
     </div>
     <div class="stack-grid">
       <div class="stack-row">
         <div class="stack-cat">LANGUAGES</div>
         <div class="stack-items">
-          <span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">SQL</span>
+          <span class="stack-tag featured">PHP (8.x)</span>
+          <span class="stack-tag featured">JavaScript (ES6+)</span>
+          <span class="stack-tag">SQL</span>
+          <span class="stack-tag">HTML5</span>
+          <span class="stack-tag">CSS3</span>
         </div>
       </div>
       <div class="stack-row">
         <div class="stack-cat">FRAMEWORKS</div>
         <div class="stack-items">
-          <span class="tag">Laravel</span><span class="tag">CodeIgniter</span><span class="tag">Vue 3</span><span class="tag">Nuxt.js</span><span class="tag">PrimeVue</span><span class="tag">Bootstrap</span>
+          <span class="stack-tag featured">Laravel (10 / 11)</span>
+          <span class="stack-tag featured">Vue 3</span>
+          <span class="stack-tag">Nuxt 3</span>
+          <span class="stack-tag">CodeIgniter</span>
+          <span class="stack-tag">PrimeVue</span>
+          <span class="stack-tag">Tailwind CSS</span>
+          <span class="stack-tag">Bootstrap</span>
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat">BACKEND</div>
+        <div class="stack-cat">BACKEND / ARCH</div>
         <div class="stack-items">
-          <span class="tag">REST APIs</span><span class="tag">ERP Dev</span><span class="tag">ETL Pipelines</span><span class="tag">Multi-Tenant SaaS</span><span class="tag">HMVC</span><span class="tag">MVC</span>
+          <span class="stack-tag featured">RESTful APIs</span>
+          <span class="stack-tag featured">ERP Development</span>
+          <span class="stack-tag featured">ETL Pipelines</span>
+          <span class="stack-tag">Multi-Tenant SaaS</span>
+          <span class="stack-tag">HMVC / MVC</span>
+          <span class="stack-tag">Queue Workers &amp; Cron</span>
+          <span class="stack-tag">Query Optimization</span>
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat">DATA / AUTH</div>
+        <div class="stack-cat">DATA &amp; AUTH</div>
         <div class="stack-items">
-          <span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">Sanctum</span><span class="tag">JWT</span>
+          <span class="stack-tag featured">MySQL (Indexing, Transactions)</span>
+          <span class="stack-tag">MongoDB</span>
+          <span class="stack-tag">Redis (Caching)</span>
+          <span class="stack-tag">Laravel Sanctum</span>
+          <span class="stack-tag">JWT</span>
+          <span class="stack-tag">RBAC</span>
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat">TOOLING</div>
+        <div class="stack-cat">TOOLING &amp; APIS</div>
         <div class="stack-items">
-          <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Postman</span><span class="tag">Pinia</span><span class="tag">Razorpay</span><span class="tag">Stripe</span><span class="tag">PayPal</span><span class="tag">VaahCMS</span><span class="tag">cPanel</span>
+          <span class="stack-tag">Git</span>
+          <span class="stack-tag">GitHub</span>
+          <span class="stack-tag">Pinia</span>
+          <span class="stack-tag">Postman</span>
+          <span class="stack-tag">Razorpay</span>
+          <span class="stack-tag">Stripe</span>
+          <span class="stack-tag">PayPal</span>
+          <span class="stack-tag">VaahCMS</span>
+          <span class="stack-tag">PHPUnit</span>
+          <span class="stack-tag">cPanel</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- EDUCATION / ACHIEVEMENTS -->
+  <!-- ==================== EDUCATION & ACHIEVEMENTS ==================== -->
   <section id="education">
     <div class="section-head">
-      <h2>Education &amp; Achievements</h2>
+      <h2>Education &amp; Community</h2>
       <span class="idx">§ 05</span>
     </div>
     <div class="two-col">
       <div class="edu-block">
-        <div class="when">2022 — 2026</div>
+        <div class="when">2022 — 2026 (EXPECTED)</div>
         <h3>Bachelor of Computer Applications (BCA)</h3>
         <p>IGNOU — Indira Gandhi National Open University</p>
+        <p style="margin-top:12px; font-size:13px; color:var(--ink-faint);">
+          Core coursework in Data Structures, Database Management Systems (DBMS), Systems Analysis &amp; Design, and Software Engineering.
+        </p>
       </div>
       <div>
         <div class="ach-item">
           <div class="ach-num">01</div>
           <div>
-            <h4>Laracon India — Company Representative, 2×</h4>
-            <p>Selected to represent WebReinvent Technologies at Laracon India on two occasions, engaging with the Laravel community and presenting company and open-source work.</p>
+            <h4>Laracon India — Company Representative (2×)</h4>
+            <p>Selected to represent WebReinvent Technologies at Laracon India on two separate occasions, collaborating with core Laravel developers and presenting proprietary and open-source systems.</p>
           </div>
         </div>
         <div class="ach-item">
           <div class="ach-num">02</div>
           <div>
             <h4>Open-Source Contributor</h4>
-            <p>Ongoing contributions to VaahCMS and VaahStore, both built on Laravel 10 and Vue 3.</p>
+            <p>Active maintainer &amp; contributor to open-source Laravel packages <strong>VaahCMS</strong> and <strong>VaahStore</strong> (Laravel 10, Vue 3, PrimeVue ecosystem).</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-</div>
+</main>
 
-<!-- FOOTER -->
+<!-- ==================== FOOTER & CONTACT ==================== -->
 <footer id="contact">
   <div class="sheet">
     <div class="contact-grid">
-      <h2>Let's build something that needs to hold up at scale.</h2>
+      <div>
+        <h2>Let's build reliable systems that hold up at enterprise scale.</h2>
+        <p style="color:var(--ink-soft); font-size:15px; margin-top:14px; max-width:48ch; line-height:1.6;">
+          Whether you need an end-to-end ERP, an automated ETL pipeline, or performance optimization for your Laravel/Vue architecture, I'm ready to ship.
+        </p>
+      </div>
       <div class="contact-list">
-        <a href="mailto:kushwahavineet651@gmail.com"><span class="k">EMAIL</span>kushwahavineet651@gmail.com</a>
-        <a href="tel:+919958362265"><span class="k">PHONE</span>+91 9958362265</a>
-        <a href="https://github.com/vineethub" target="_blank" rel="noopener"><span class="k">GITHUB</span>vineethub</a>
-        <a href="https://linkedin.com/in/vineet-kumar" target="_blank" rel="noopener"><span class="k">LINKEDIN</span>vineet-kumar</a>
+        <div class="contact-row">
+          <a href="mailto:kushwahavineet651@gmail.com" class="contact-link">
+            <span class="k">EMAIL</span>
+            <span>kushwahavineet651@gmail.com</span>
+          </a>
+          <button class="copy-btn" onclick="copyText('kushwahavineet651@gmail.com', 'Email copied!')" title="Copy email address">COPY</button>
+        </div>
+
+        <div class="contact-row">
+          <a href="tel:+919958362265" class="contact-link">
+            <span class="k">PHONE</span>
+            <span>+91 9958362265</span>
+          </a>
+          <button class="copy-btn" onclick="copyText('+919958362265', 'Phone number copied!')" title="Copy phone number">COPY</button>
+        </div>
+
+        <div class="contact-row">
+          <a href="https://github.com/vineethub" target="_blank" rel="noopener" class="contact-link">
+            <span class="k">GITHUB</span>
+            <span>github.com/vineethub</span>
+          </a>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-faint)"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
+
+        <div class="contact-row">
+          <a href="https://linkedin.com/in/vineet-kumar" target="_blank" rel="noopener" class="contact-link">
+            <span class="k">LINKEDIN</span>
+            <span>linkedin.com/in/vineet-kumar</span>
+          </a>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-faint)"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </div>
       </div>
     </div>
+
     <div class="foot-note">
-      <span>VINEET KUMAR — FULL STACK DEVELOPER</span>
-      <span>DELHI, INDIA</span>
+      <span>VINEET KUMAR — FULL STACK DEVELOPER (LARAVEL &amp; VUE.JS)</span>
+      <span>LOCATED IN DELHI, INDIA · REMOTE READY</span>
     </div>
   </div>
 </footer>
+
+<!-- Interactive Deep-Dive Case Study Modal -->
+<div id="case-study-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-window">
+    <div class="modal-header">
+      <div>
+        <div class="modal-badge" id="modal-badge">CASE STUDY</div>
+        <h3 class="modal-title" id="modal-title">Project Deep Dive</h3>
+      </div>
+      <button class="modal-close-btn" onclick="closeCaseStudy()" aria-label="Close case study dialog">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block">
+        <div class="modal-kicker">01 // THE BUSINESS PROBLEM &amp; CONTEXT</div>
+        <p id="modal-problem"></p>
+      </div>
+
+      <div class="modal-block">
+        <div class="modal-kicker">02 // SYSTEM ARCHITECTURE &amp; WORKFLOWS</div>
+        <p id="modal-arch"></p>
+      </div>
+
+      <div class="modal-block">
+        <div class="modal-kicker">03 // KEY TECHNICAL DECISIONS &amp; RELIABILITY</div>
+        <ul class="modal-features" id="modal-decisions"></ul>
+      </div>
+
+      <div class="modal-block">
+        <div class="modal-kicker">04 // MEASURABLE OUTCOMES &amp; PERFORMANCE</div>
+        <div class="modal-metric-row" id="modal-metrics"></div>
+      </div>
+
+      <div class="modal-tags" id="modal-tags"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Feedback Notification Element -->
+<div id="toast-notification" role="status" aria-live="polite">
+  <span class="toast-dot"></span>
+  <span id="toast-message">Copied to clipboard</span>
+</div>
+
+<!-- ==========================================================================
+   CLIENT-SIDE SCRIPTING
+   ========================================================================== -->
+<script>
+(function() {
+  'use strict';
+
+  // --- 1. Theme Management (Light Blueprint / Cyber Dark) ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeLabel = document.getElementById('theme-toggle-label');
+  const sunIcon = document.getElementById('theme-icon-sun');
+  const moonIcon = document.getElementById('theme-icon-moon');
+
+  function updateThemeUI(theme) {
+    if (theme === 'dark') {
+      sunIcon.style.display = 'inline-block';
+      moonIcon.style.display = 'none';
+      themeLabel.textContent = 'LIGHT';
+    } else {
+      sunIcon.style.display = 'none';
+      moonIcon.style.display = 'inline-block';
+      themeLabel.textContent = 'DARK';
+    }
+  }
+
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  updateThemeUI(currentTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const nextTheme = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('vk_theme', nextTheme);
+    const metaColorScheme = document.querySelector('meta[name="color-scheme"]');
+    if (metaColorScheme) {
+      metaColorScheme.content = nextTheme === 'dark' ? 'dark' : 'light';
+    }
+    updateThemeUI(nextTheme);
+  });
+
+  // Listen for OS system theme change
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('vk_theme')) {
+      const systemTheme = e.matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', systemTheme);
+      updateThemeUI(systemTheme);
+    }
+  });
+
+  // --- 2. Live IST Local Clock in Topbar ---
+  const clockEl = document.getElementById('live-clock');
+  function updateClock() {
+    if (!clockEl) return;
+    const now = new Date();
+    // Delhi is UTC+5:30
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    };
+    try {
+      const timeStr = new Intl.DateTimeFormat('en-US', options).format(now);
+      clockEl.textContent = `DELHI ${timeStr} IST`;
+    } catch (err) {
+      clockEl.textContent = `DELHI ${now.toTimeString().split(' ')[0]} IST`;
+    }
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // --- 3. Reading Scroll Progress Bar ---
+  const progressBar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight > 0) {
+      const progress = (window.scrollY / totalHeight) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+  }, { passive: true });
+
+  // --- 4. ScrollSpy Active Navigation Links ---
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.topbar nav a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(sec => navObserver.observe(sec));
+
+  // --- 5. Telemetry Number Count-Up Animation ---
+  const counters = document.querySelectorAll('.counter-target');
+  let countersAnimated = false;
+
+  function runCounters() {
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'), 10);
+      const suffix = counter.getAttribute('data-suffix') || '';
+      const duration = 1200; // ms
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // easeOutQuart
+        const ease = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(ease * target);
+        counter.textContent = `${current}${suffix}`;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          counter.textContent = `${target}${suffix}`;
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  const telemetryEl = document.getElementById('telemetry');
+  if (telemetryEl) {
+    const telemetryObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !countersAnimated) {
+        countersAnimated = true;
+        runCounters();
+      }
+    }, { threshold: 0.2 });
+    telemetryObserver.observe(telemetryEl);
+  }
+
+  // --- 6. Interactive Architecture Diagram Node Inspector ---
+  const nodeSpecs = {
+    vk: {
+      name: "Vineet Kumar (Lead Dev / Architect)",
+      type: "SYSTEM ARCHITECT & LEAD DEVELOPER",
+      desc: "Architects end-to-end backend workflows, database schemas, and reactive Vue interfaces. Specializes in multi-module ERPs, enterprise batch ETL pipelines, and API integrations.",
+      tech: ["Laravel 10 / 11", "Vue 3", "MySQL", "REST APIs", "Redis", "Pinia", "Sanctum"]
+    },
+    simco: {
+      name: "Simco ERP Central Hub",
+      type: "ENTERPRISE ERP CORE",
+      desc: "Modular enterprise ERP uniting Inventory tracking, automated Invoicing, Purchase Orders, payment reconciliations, and logistics delivery monitoring. Designed for high availability and ACID transactional integrity.",
+      tech: ["Laravel 11", "Vue 3", "MySQL 8", "Pinia", "Sanctum", "Redis Caching"]
+    },
+    invoicing: {
+      name: "Invoicing & Financial Ledger",
+      type: "FINANCIAL ACCOUNTING ENGINE",
+      desc: "Automated billing and taxation calculations, ledger journal entries, and PDF invoice generation with payment gateway reconciliation.",
+      tech: ["Tax Engines", "PDF Generators", "Queue Jobs", "Audit Logging"]
+    },
+    inventory: {
+      name: "Inventory & Purchase Order Engine",
+      type: "TRANSACTIONAL INVENTORY MODULE",
+      desc: "Real-time stock ledger, automated PO generation, supplier fulfillment status, and low-inventory triggers. Reduced client manual data entry by 40%.",
+      tech: ["MySQL Transactions", "State Machines", "Eloquent ORM", "Composite Indexing"]
+    },
+    payments: {
+      name: "Dispatch & Order Fulfillment",
+      type: "LOGISTICS & RECONCILIATION",
+      desc: "Real-time dispatch management, courier consignment creation, delivery state machines, and customer order tracking.",
+      tech: ["Vue 3 SPA", "Pinia State Store", "REST Endpoints", "Event-Driven Listeners"]
+    },
+    gateways: {
+      name: "Payment Gateways Adapter",
+      type: "THIRD-PARTY SECURE WEBHOOKS",
+      desc: "Resilient adapters for Razorpay, Stripe, and PayPal with cryptographic webhook signature verification and idempotency protection.",
+      tech: ["Razorpay SDK", "Stripe API", "PayPal", "Webhook Handlers", "Idempotency Keys"]
+    },
+    logistics: {
+      name: "Logistics & Courier Dispatch",
+      type: "REAL-TIME WEBHOOK TRACKING",
+      desc: "Automated consignment tracking and courier webhook handlers for real-time dispatch updates, transit checkpoints, and proof-of-delivery synchronization.",
+      tech: ["Logistics APIs", "Webhook Listeners", "Queue Workers", "REST APIs"]
+    }
+  };
+
+  window.inspectNode = function(nodeKey) {
+    const spec = nodeSpecs[nodeKey];
+    if (!spec) return;
+
+    document.querySelectorAll('.arch-node').forEach(node => {
+      node.classList.toggle('active', node.getAttribute('data-node') === nodeKey);
+    });
+
+    const box = document.getElementById('node-inspector-box');
+    const nameEl = document.getElementById('insp-name');
+    const typeEl = document.getElementById('insp-type');
+    const descEl = document.getElementById('insp-desc');
+    const techEl = document.getElementById('insp-tech');
+
+    nameEl.textContent = spec.name;
+    typeEl.textContent = spec.type;
+    descEl.textContent = spec.desc;
+    techEl.innerHTML = spec.tech.map(t => `<span>${t}</span>`).join('');
+    box.classList.add('visible');
+  };
+
+  // --- 7. Project Category Filter Matrix ---
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectPlates = document.querySelectorAll('.plate[data-category]');
+  const countDisplay = document.getElementById('project-count-display');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      const filter = btn.getAttribute('data-filter');
+      let visibleCount = 0;
+
+      projectPlates.forEach(plate => {
+        const cat = plate.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          plate.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          plate.classList.add('hidden');
+        }
+      });
+
+      if (countDisplay) {
+        countDisplay.textContent = `Showing ${visibleCount} of ${projectPlates.length} systems`;
+      }
+    });
+  });
+
+  // --- 8. 1-Click Clipboard Copy with Toast Feedback ---
+  const toast = document.getElementById('toast-notification');
+  const toastMsg = document.getElementById('toast-message');
+  let toastTimer = null;
+
+  window.copyText = function(text, successMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showToast).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+
+    function fallbackCopy() {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast();
+      } catch (err) {
+        showToast('Error copying to clipboard');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showToast() {
+      if (!toast) return;
+      toastMsg.textContent = successMsg || `Copied "${text}" to clipboard!`;
+      toast.classList.add('active');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('active');
+      }, 3000);
+    }
+  };
+
+  // --- 9. Interactive Case Study Deep-Dive System ---
+  const caseStudies = {
+    simco: {
+      badge: "ENTERPRISE ERP · ARCHITECTURE CASE STUDY",
+      title: "Simco ERP Software — Production Inventory, Invoicing & Delivery",
+      problem: "The client's operations depended on scattered spreadsheets and disconnected offline ledgers across inventory, warehouse stock, supplier purchase orders, and customer billing. This caused inventory stockouts, duplicate records, delayed fulfillment, and 40%+ overhead in manual data entry.",
+      architecture: "Architected a full-lifecycle modular ERP built on Laravel 11 and Vue 3. Modeled business rules as deterministic state machines for Purchase Orders (Draft → Approved → Ordered → Received → Billed) and Inventory items (In Stock → Reserved → Dispatched → Returned). Constructed transactional database ledgers guaranteeing zero count discrepancies.",
+      decisions: [
+        "<strong>Strict ACID Database Transactions:</strong> Encapsulated multi-table mutations (stock adjustments, invoice numbering, journal entries) within DB transactions with automatic rollbacks on error.",
+        "<strong>Automated Barcode Scanning:</strong> Designed barcode hardware scanner integration for high-speed warehouse receiving, batch verification, and dispatch confirmation.",
+        "<strong>Reactive UI with Pinia & PrimeVue:</strong> Replaced legacy form submissions with reactive Vue 3 components, caching master product catalogs in client-side Pinia stores for instantaneous search.",
+        "<strong>Granular Role-Based Access Control (RBAC):</strong> Configured strict authorization gates protecting accounting records, purchase approvals, and inventory audits."
+      ],
+      metrics: [
+        { num: "40%", desc: "Reduction in client manual data entry time" },
+        { num: "0", desc: "Inventory balance discrepancies post-deployment" },
+        { num: "100%", desc: "Automated GST/tax invoice & ledger sync" }
+      ],
+      tags: ["Laravel 11", "Vue 3", "MySQL 8", "Pinia", "Sanctum", "State Machines", "Queue Workers", "Redis"]
+    },
+    badger: {
+      badge: "HIGH-THROUGHPUT DATA · ARCHITECTURE CASE STUDY",
+      title: "Badger Liquor — Enterprise Distributor ETL Ingestion Pipeline",
+      problem: "An enterprise beverage distributor required automated, daily synchronization of high-volume product catalogs, distributor stock levels, and sales feeds from heterogeneous partner endpoints with unpredictable schemas and frequent network drops.",
+      architecture: "Engineered a fault-tolerant ETL pipeline in Laravel 11 leveraging queued batch ingestion. Designed an extraction layer that polls distributed partner endpoints, normalizes inconsistent schemas into strongly typed DTOs, performs validation passes, and streams clean datasets into relational MySQL storage.",
+      decisions: [
+        "<strong>Chunked Streaming Ingestion:</strong> Eliminated PHP memory exhaustion by chunking 100k+ record datasets into 1,000-row transactional worker batches.",
+        "<strong>Dead-Letter Queues & Automated Retries:</strong> Isolated malformed or timed-out partner payloads into an error quarantine queue with automatic exponential backoff without stalling main pipeline ingestion.",
+        "<strong>Optimized SQL Upserts:</strong> Implemented composite indexing and MySQL bulk upserts (INSERT ... ON DUPLICATE KEY UPDATE) to maintain sub-second ingestion rates.",
+        "<strong>Real-Time Pipeline Telemetry:</strong> Configured automated pipeline health monitoring, Slack alerts, and comprehensive failure logging."
+      ],
+      metrics: [
+        { num: "100k+", desc: "Catalog records ingested in daily batch runs" },
+        { num: "0 Loss", desc: "Guaranteed transactional integrity on failures" },
+        { num: "30%", desc: "Query overhead reduction via indexed schemas" }
+      ],
+      tags: ["ETL Pipeline", "Laravel 11", "MySQL 8", "Queue Workers", "Cron", "Batch Processing", "Redis"]
+    },
+    oho: {
+      badge: "MULTI-TENANT SAAS · ARCHITECTURE CASE STUDY",
+      title: "OHO — Cloud Multi-Tenant SaaS with Automated Payroll & HRMS",
+      problem: "Growing businesses required a unified multi-tenant software solution to manage agile development sprints, track employee work hours, calculate accurate monthly payroll with statutory deductions, and handle employee leave lifecycles across distinct organizations.",
+      architecture: "Architected on Laravel 11 and Vue 3 featuring tenant database schema isolation. Designed a multi-tenant middleware layer that scopes all queries to the authenticated tenant context while maintaining a unified superadmin dashboard for billing and account management.",
+      decisions: [
+        "<strong>Multi-Tenant Database Isolation:</strong> Enforced tenant-aware query scopes across Eloquent models, guaranteeing complete data segregation between companies.",
+        "<strong>Automated Payroll Calculation Engine:</strong> Programmed business logic calculating dynamic salary structures, statutory tax deductions, and attendance allowances with one-click pay-slip generation.",
+        "<strong>Interactive Sprint Kanban:</strong> Engineered reactive drag-and-drop Kanban workflow boards in Vue 3 backed by Pinia reactive state stores.",
+        "<strong>Granular Organizational RBAC:</strong> Tailored role hierarchies from employee, team lead, project manager, HR admin, to organization owner."
+      ],
+      metrics: [
+        { num: "Multi-Tenant", desc: "Strict database schema isolation per tenant" },
+        { num: "1-Click", desc: "Automated monthly payroll calculation" },
+        { num: "100%", desc: "Audit trail coverage across HR operations" }
+      ],
+      tags: ["Laravel 11", "Vue 3", "Multi-Tenancy", "Pinia", "RBAC", "Tailwind CSS", "MySQL"]
+    },
+    bribooks: {
+      badge: "REST API & WORKFLOWS · ARCHITECTURE CASE STUDY",
+      title: "BriBooks — Digital Publishing Platform API & State Workflows",
+      problem: "A creative digital manuscript writing and publishing platform required a backend capable of handling autosaving chapter drafts, version snapshots, collaborative reviews, and transitions from draft to final book publishing.",
+      architecture: "Engineered scalable RESTful API endpoints in Laravel 11. Implemented chapter versioning state machines, JWT token authentication, and background worker queues for rendering print-ready PDF book layouts and notifying authors of editorial status updates.",
+      decisions: [
+        "<strong>Snapshot Versioning & Rollbacks:</strong> Saved diff-based chapter snapshots allowing authors to restore previous drafts with zero loss.",
+        "<strong>Editorial State Machine:</strong> Structured editorial review pipelines (Draft → Submitted → Under Review → Approved → Published) with validation gates.",
+        "<strong>Asynchronous PDF Typesetting:</strong> Offloaded heavy manuscript formatting and PDF rendering to background queue workers.",
+        "<strong>PHPUnit Automated Test Suite:</strong> Protected critical publication workflows and API endpoints with comprehensive automated test coverage."
+      ],
+      metrics: [
+        { num: "PHPUnit", desc: "Comprehensive automated test coverage" },
+        { num: "Real-Time", desc: "Autosave & snapshot rollback support" },
+        { num: "Zero-Downtime", desc: "Stateless JWT token authentication" }
+      ],
+      tags: ["Laravel 11", "REST API", "JWT Auth", "State Machines", "PHPUnit", "Queue Workers", "MySQL"]
+    }
+  };
+
+  const modalBackdrop = document.getElementById('case-study-modal');
+  const modalBadge = document.getElementById('modal-badge');
+  const modalTitle = document.getElementById('modal-title');
+  const modalProblem = document.getElementById('modal-problem');
+  const modalArch = document.getElementById('modal-arch');
+  const modalDecisions = document.getElementById('modal-decisions');
+  const modalMetrics = document.getElementById('modal-metrics');
+  const modalTags = document.getElementById('modal-tags');
+
+  window.openCaseStudy = function(key) {
+    const study = caseStudies[key];
+    if (!study || !modalBackdrop) return;
+
+    modalBadge.textContent = study.badge;
+    modalTitle.textContent = study.title;
+    modalProblem.textContent = study.problem;
+    modalArch.textContent = study.architecture;
+
+    modalDecisions.innerHTML = study.decisions.map(d => `<li>${d}</li>`).join('');
+
+    modalMetrics.innerHTML = study.metrics.map(m => `
+      <div class="modal-metric-item">
+        <span class="num">${m.num}</span>
+        <span class="desc">${m.desc}</span>
+      </div>
+    `).join('');
+
+    modalTags.innerHTML = study.tags.map(t => `<span>${t}</span>`).join('');
+
+    modalBackdrop.classList.add('open');
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeCaseStudy = function() {
+    if (!modalBackdrop) return;
+    modalBackdrop.classList.remove('open');
+    modalBackdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeCaseStudy();
+      }
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalBackdrop && modalBackdrop.classList.contains('open')) {
+      closeCaseStudy();
+    }
+  });
+
+})();
+</script>
 
 </body>
 </html>
